@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-#include "Rage2020.h"
+#include "Rage2022.h"
 #include "ctre/Phoenix.h"
 
 class Shooter
@@ -29,7 +29,7 @@ public:
     bool RaiseShooterHood(bool raise);
     bool IsShooterMotorTooHot(void);
     bool IsBallBlockingLowerSensor(void);
-
+#if 0
     int kTimeoutMs = 0;
     int ballCount = 0;
 
@@ -55,4 +55,5 @@ public:
 
     frc::DoubleSolenoid conveyorSqueezePiston{CONVEYOR_SQUEEZE_DOUBLE_SOLENOID};
     frc::DoubleSolenoid shooterHoodPiston{SHOOTER_HOOD_DOUBLE_SOLENOID};
+#endif
 };
