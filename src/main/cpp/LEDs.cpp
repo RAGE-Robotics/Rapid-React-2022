@@ -17,7 +17,7 @@ void LEDs::displayRainbow()
     for (int i = 0; i < kLength; i++)
     {
         // Alternate sin function movement
-        //int shift = (int)(sin(m_timer.Get()) * kLength / 2 + kLength / 2);
+        // int shift = (int)(sin(m_timer.Get()) * kLength / 2 + kLength / 2);
 
         // Shift at a rate of 10 lights per seconds
         int shift = (int)(m_LEDTimer.Get() * 10);
@@ -32,7 +32,7 @@ void LEDs::displayRainbow()
         }
         else
         {
-            m_ledBuffer[i].SetRGB(0, 0, 0); //idk what
+            m_ledBuffer[i].SetRGB(0, 0, 0); // idk what
         }
     }
     m_led.SetData(m_ledBuffer); // This turns the lights on
@@ -62,7 +62,7 @@ void LEDs::displayFallingLights()
     for (int i = 0; i < kLength; i++)
     {
         // Alternate sin function movement
-        //int shift = (int)(sin(m_LEDTimer.Get()) * kLength / 2 + kLength / 2);
+        // int shift = (int)(sin(m_LEDTimer.Get()) * kLength / 2 + kLength / 2);
 
         // Shift at a rate of 10 lights per seconds
         int shift = (int)(m_LEDTimer.Get() * 10);

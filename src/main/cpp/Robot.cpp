@@ -10,17 +10,17 @@
 
 void Robot::RobotInit()
 {
-  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
+    m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
+    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
-  // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
-  // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
-  // m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
-  // frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
+    // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
+    // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
+    // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
+    // m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
+    // frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
 
-  leds.displayTeamColor();
+    leds.displayTeamColor();
 }
 
 /**
@@ -46,85 +46,85 @@ void Robot::RobotPeriodic() {}
  */
 void Robot::AutonomousInit()
 {
-  m_gameTimer.Reset();
-  m_gameTimer.Start();
-  m_autoSelected = m_chooser.GetSelected();
-  // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
+    m_gameTimer.Reset();
+    m_gameTimer.Start();
+    m_autoSelected = m_chooser.GetSelected();
+    // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
-  // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-  //     kAutoNameDefault);
-  // std::cout << "Auto selected: " << m_autoSelected << std::endl;
-  // std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
+    // m_autoSelected = SmartDashboard::GetString("Auto Selector",
+    //     kAutoNameDefault);
+    // std::cout << "Auto selected: " << m_autoSelected << std::endl;
+    // std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
 
-  if (m_autoSelected == kAutoNameCustom)
-  {
-    // Custom Auto goes here
-  }
-  else
-  {
-    // Default Auto goes here
-  }
+    if (m_autoSelected == kAutoNameCustom)
+    {
+        // Custom Auto goes here
+    }
+    else
+    {
+        // Default Auto goes here
+    }
 }
 
 void Robot::AutonomousPeriodic()
 {
-  leds.displayRainbow();
-  if (m_autoSelected == kAutoNameCustom)
-  {
-    // Custom Auto goes here
-  }
-  else
-  {
-    // Default Auto goes here
-  }
+    leds.displayRainbow();
+    if (m_autoSelected == kAutoNameCustom)
+    {
+        // Custom Auto goes here
+    }
+    else
+    {
+        // Default Auto goes here
+    }
 }
 
 void Robot::TeleopInit()
 {
-  // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
-  //  std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
+    // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
+    //  std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
 
-  leds.displayTeamColor();
+    leds.displayTeamColor();
 }
 
 void Robot::TeleopPeriodic()
 {
 #if 0
-  if (m_limelightLEDModeSelected == "default")
-  {
-    limelightCamera.setLEDsToDefault();
-  }
-  else if (m_limelightLEDModeSelected == "ledsoff")
-  {
-    limelightCamera.turnOffLEDs();
-  }
-  else if (m_limelightLEDModeSelected == "ledson")
-  {
-    limelightCamera.turnOnLEDs();
-  }
-  else if (m_limelightLEDModeSelected == "ledsblinking")
-  {
-    limelightCamera.turnOffLEDs();
-  }
+    if (m_limelightLEDModeSelected == "default")
+    {
+      limelightCamera.setLEDsToDefault();
+    }
+    else if (m_limelightLEDModeSelected == "ledsoff")
+    {
+      limelightCamera.turnOffLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledson")
+    {
+      limelightCamera.turnOnLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledsblinking")
+    {
+      limelightCamera.turnOffLEDs();
+    }
 #endif
-  // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
-  // {
-  //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
-  // }
+    // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
+    // {
+    //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
+    // }
 
-  base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
-  if (m_gameTimer.HasElapsed((units::second_t)120.0))
-  {
-    leds.displayFallingLights();
-  }
-  if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
-  {
-    gearSolenoid.Set(true);
-  }
-  if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
-  {
-    gearSolenoid.Set(false);
-  }
+    base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
+    if (m_gameTimer.HasElapsed((units::second_t)120.0))
+    {
+        leds.displayFallingLights();
+    }
+    if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
+    {
+        gearSolenoid.Set(true);
+    }
+    if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
+    {
+        gearSolenoid.Set(false);
+    }
 }
 
 void Robot::DisabledInit() {}
@@ -142,6 +142,6 @@ void Robot::SimulationPeriodic() {}
 #ifndef RUNNING_FRC_TESTS
 int main()
 {
-  return frc::StartRobot<Robot>();
+    return frc::StartRobot<Robot>();
 }
 #endif
