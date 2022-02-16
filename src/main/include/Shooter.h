@@ -27,10 +27,10 @@ class Shooter
 {
 public:
     Shooter();
-    double SetShooterTopSpeedVoltage(double voltage);
-    double SetShooterBottomSpeedVoltage(double voltage);
-    double SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
     double SetShooterSpeedTopVelocityRPM(double speed); // Using velocity speed feedback
+    double SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
+    double SetShooterSpeedTopVoltage(double voltage);
+    double SetShooterSpeedBottomVoltage(double voltage);
     double GetShooterSpeedRPM();
     double GetShooterTemperature();
     double SetShooterAngle(double angle);
@@ -42,7 +42,6 @@ public:
     void SqueezeConveyor(bool squeeze);
     void GrabTheBall(bool grab);
     bool Shoot(bool fire);
-    bool RaiseShooterHood(bool raise);
     bool IsShooterMotorTooHot(void);
     bool IsBallBlockingLowerSensor(void);
 
@@ -53,6 +52,7 @@ public:
     double kP;
     double kI;
     double kD;
+
     int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY;
     int shooterSpeedBottomVelocity = SHOOTER_SPEED_BOTTOM_VELOCITY;
 
@@ -61,7 +61,6 @@ public:
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorTop{SHOOTER_MOTOR_TOP_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorBottom{SHOOTER_MOTOR_BOTTOM_CAN};
 
-    // ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterLeadScrewMotor{SHOOTER_LEAD_SCREW_MOTOR_CAN};
     // ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeRollerMotor{INTAKE_ROLLER_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterFeedMotor{SHOOTER_FEED_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX extendableIntakeMotor{EXTENDABLE_INTAKE_MOTOR_CAN};
@@ -71,8 +70,4 @@ public:
     frc::DigitalInput ballInSensor{BALL_IN_SENSOR_DIO};
     frc::DigitalInput ballShotSensor{BALL_SHOT_SENSOR_DIO};
     frc::Timer rollerIntakeDelay;
-
-    //frc::DoubleSolenoid conveyorSqueezePiston{CONVEYOR_SQUEEZE_DOUBLE_SOLENOID};
-    //frc::DoubleSolenoid shooterHoodPiston{SHOOTER_HOOD_DOUBLE_SOLENOID};
-
 };

@@ -1,18 +1,12 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "Robot.h"
-
 #include <fmt/core.h>
-
 #include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit()
 {
     m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
     m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
     // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
     // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
@@ -125,26 +119,23 @@ void Robot::TeleopPeriodic()
     {
         gearSolenoid.Set(false);
     }
-    if (driverLeftStick.GetRawButtonPressed(1))
+    if (operatorRightStick.GetRawButtonPressed(SHOOT_BALL_BUTTON))
     {
        shooter.Shoot(true); 
     }
-    if (driverLeftStick.GetRawButtonReleased(1))
+    if (operatorRightStick.GetRawButtonReleased(SHOOT_BALL_BUTTON))
     {
        shooter.Shoot(false); 
     }
 }
 
 void Robot::DisabledInit() {}
-
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {}
-
 void Robot::TestPeriodic() {}
 
 void Robot::SimulationInit() {}
-
 void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS

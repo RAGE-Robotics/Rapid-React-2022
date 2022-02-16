@@ -1,14 +1,7 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #include "Shooter.h"
+
 Shooter::Shooter()
 {
-
     shooterMotorTop.ConfigFactoryDefault();
     shooterMotorTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorTop.SetSensorPhase(true);
@@ -47,14 +40,14 @@ Shooter::Shooter()
     // shooterLeadScrewMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 30);
 }
 
-double Shooter::SetShooterTopSpeedVoltage(double voltage)
+double Shooter::SetShooterSpeedTopVoltage(double voltage)
 {
     // ctre::phoenix::motorcontrol::can::WPI_TalonFX
     shooterMotorTop.Set(ControlMode::PercentOutput, voltage);
 
     return 0;
 }
-double Shooter::SetShooterBottomSpeedVoltage(double voltage)
+double Shooter::SetShooterSpeedBottomVoltage(double voltage)
 {
     // ctre::phoenix::motorcontrol::can::WPI_TalonFX
     shooterMotorBottom.Set(ControlMode::PercentOutput, voltage);
@@ -66,7 +59,7 @@ double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
 {
     if (speed == 0.0)
     {
-        SetShooterBottomSpeedVoltage(0.0);
+        SetShooterSpeedBottomVoltage(0.0);
         return 0;
     }
     // double newF = frc::SmartDashboard::GetNumber("kF", 0);
@@ -107,11 +100,12 @@ double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
 
     return 0;
 }
+
 double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 {
     if (speed == 0.0)
     {
-        SetShooterTopSpeedVoltage(0.0);
+        SetShooterSpeedTopVoltage(0.0);
         return 0;
     }
     // double newF = frc::SmartDashboard::GetNumber("kF", 0);
@@ -155,15 +149,15 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 
 double Shooter::GetShooterSpeedRPM()
 {
-    int rawSensorVelocity;
-    rawSensorVelocity = shooterMotorTop.GetSelectedSensorVelocity(0);
-    rawSensorVelocity = shooterMotorBottom.GetSelectedSensorVelocity(0);
+    int rawSensorVelocityTop = shooterMotorTop.GetSelectedSensorVelocity(0);
+    int rawSensorVelocityBottom = shooterMotorBottom.GetSelectedSensorVelocity(0);
 
     //frc::SmartDashboard::PutNumber("shooterVelocityRAW: ", rawSensorVelocity);
-    double shooterVelocityRPM = double(rawSensorVelocity) * CONVERT_VELOCITY_TICKS_TO_RPM;
+    double shooterVelocityRPM = double(rawSensorVelocityTop) * CONVERT_VELOCITY_TICKS_TO_RPM;
     //frc::SmartDashboard::PutNumber("shooterVelocityRPM: ", shooterVelocityRPM);
     return shooterVelocityRPM;
 }
+
 bool Shooter::Shoot(bool fire)
 {
     if (fire == true)
@@ -171,20 +165,21 @@ bool Shooter::Shoot(bool fire)
         // start the shooter wheel
         SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
         SetShooterSpeedBottomVelocityRPM(shooterSpeedBottomVelocity);
+
         // we may have to wait for an acceptable speed
-        //if (GetShooterSpeedRPM() > (shooterSpeedTopVelocity * 0.95)) // adjust the speed limit as needed
-        {
-           // SetLowerConveyorIntakeMotorSpeed(LOWER_CONVEYOR_MOTOR_SPEED);
-           // SetShooterFeedMotorSpeed(SHOOTER_FEED_MOTOR_SPEED);
-           // SqueezeConveyor(true);
-           // shooterIsControllingIntakeConveyor = true; // Allow shooter to override the intake button
-        }
+        // if (GetShooterSpeedRPM() > (shooterSpeedTopVelocity * 0.95)) // adjust the speed limit as needed
+        // {
+        //    SetLowerConveyorIntakeMotorSpeed(LOWER_CONVEYOR_MOTOR_SPEED);
+        //    SetShooterFeedMotorSpeed(SHOOTER_FEED_MOTOR_SPEED);
+        //    SqueezeConveyor(true);
+        //    shooterIsControllingIntakeConveyor = true; // Allow shooter to override the intake button
+        // }
     }
     else
     {
-         SetShooterTopSpeedVoltage(0.0);
-         SetShooterBottomSpeedVoltage(0.0);
-        //  SetRollerAndLowerConveyorIntakeMotorSpeed(0); //This will happen because we aren't picking up balls
+        SetShooterSpeedTopVoltage(0.0);
+        SetShooterSpeedBottomVoltage(0.0);
+        // SetRollerAndLowerConveyorIntakeMotorSpeed(0); //This will happen because we aren't picking up balls
         // SetShooterFeedMotorSpeed(0);
         // SetLowerConveyorIntakeMotorSpeed(0);
         // SqueezeConveyor(false);
@@ -285,20 +280,6 @@ void Shooter::GrabTheBall(bool grab)
             // SetShooterFeedMotorSpeed(0.0);
         }
     }
-}
-
-
-bool Shooter::RaiseShooterHood(bool raise)
-{
-    if (raise == true)
-    {
-        shooterHoodPiston.Set(frc::DoubleSolenoid::kForward);
-    }
-    else
-    {
-        shooterHoodPiston.Set(frc::DoubleSolenoid::kReverse);
-    }
-    return raise;
 }
 
 bool Shooter::IsShooterMotorTooHot(void)
