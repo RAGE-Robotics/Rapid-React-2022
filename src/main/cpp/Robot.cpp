@@ -125,6 +125,14 @@ void Robot::TeleopPeriodic()
     {
         gearSolenoid.Set(false);
     }
+    if (driverLeftStick.GetRawButtonPressed(1))
+    {
+       shooter.Shoot(true); 
+    }
+    if (driverLeftStick.GetRawButtonReleased(1))
+    {
+       shooter.Shoot(false); 
+    }
 }
 
 void Robot::DisabledInit() {}

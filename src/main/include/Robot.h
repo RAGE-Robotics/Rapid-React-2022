@@ -12,7 +12,7 @@
 #include "LEDs.h"
 #include "Base.h"
 #include "Camera.h"
-
+#include "Shooter.h"
 class Robot : public frc::TimedRobot
 {
 public:
@@ -47,6 +47,7 @@ private:
     LEDs leds;
     Base base; // Based
     Camera limelightCamera;
+    Shooter shooter; 
 
     frc::Solenoid gearSolenoid{frc::PneumaticsModuleType::CTREPCM, SHIFT_GEAR_SOLENOID};
 };
