@@ -1,28 +1,8 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #pragma once
+
 #include "Rage2022.h"
 #include "ctre/Phoenix.h"
 
-#define SHOOTER_SPEED_TOP_VELOCITY 20
-#define SHOOTER_MOTOR_TOP_CAN 2
-#define SHOOTER_SPEED_BOTTOM_VELOCITY 20
-#define SHOOTER_MOTOR_BOTTOM_CAN 6
-#define SHOOTER_FEED_MOTOR_CAN 0
-#define EXTENDABLE_INTAKE_MOTOR_CAN 0
-#define INTAKE_ROLLER_AND_LOWER_CONVEYOR_MOTOR_CAN 0
-#define UPPER_INTAKE_ROLLER_CAN 0
-#define BALL_IN_SENSOR_DIO 0
-#define BALL_SHOT_SENSOR_DIO 0
-#define CONVEYOR_SQUEEZE_DOUBLE_SOLENOID 0
-#define SHOOTER_HOOD_DOUBLE_SOLENOID 0
-#define CONVERT_VELOCITY_TICKS_TO_RPM 0
-#define CONVERT_RPM_TO_VELOCITY_TICKS 0
 class Shooter
 {
 public:

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Rage2022.h"
 #include "frc/smartdashboard/Smartdashboard.h"
 #include "networktables/NetworkTable.h"

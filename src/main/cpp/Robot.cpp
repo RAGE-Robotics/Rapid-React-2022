@@ -119,11 +119,11 @@ void Robot::TeleopPeriodic()
     {
         gearSolenoid.Set(false);
     }
-    if (operatorRightStick.GetRawButtonPressed(SHOOT_BALL_BUTTON))
+    if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))
     {
        shooter.Shoot(true); 
     }
-    if (operatorRightStick.GetRawButtonReleased(SHOOT_BALL_BUTTON))
+    if (operatorRightStick.GetRawButtonReleased(SHOOT_BUTTON))
     {
        shooter.Shoot(false); 
     }

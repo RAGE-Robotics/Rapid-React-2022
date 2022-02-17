@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #pragma once
 
 #include <string>
@@ -13,6 +9,7 @@
 #include "Base.h"
 #include "Camera.h"
 #include "Shooter.h"
+
 class Robot : public frc::TimedRobot
 {
 public:
@@ -44,10 +41,11 @@ private:
     frc::Joystick driverRightStick{RIGHT_DRIVER_JOYSTICK_USB};
     frc::Joystick operatorLeftStick{LEFT_OPERATOR_JOYSTICK_USB};
     frc::Joystick operatorRightStick{RIGHT_OPERATOR_JOYSTICK_USB};
+
     LEDs leds;
     Base base; // Based
     Camera limelightCamera;
     Shooter shooter; 
 
-    frc::Solenoid gearSolenoid{frc::PneumaticsModuleType::CTREPCM, SHIFT_GEAR_SOLENOID};
+    frc::Solenoid gearSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOUBLE_SOLENOID};
 };

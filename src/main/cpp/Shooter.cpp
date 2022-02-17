@@ -150,7 +150,7 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 double Shooter::GetShooterSpeedRPM()
 {
     int rawSensorVelocityTop = shooterMotorTop.GetSelectedSensorVelocity(0);
-    int rawSensorVelocityBottom = shooterMotorBottom.GetSelectedSensorVelocity(0);
+//    int rawSensorVelocityBottom = shooterMotorBottom.GetSelectedSensorVelocity(0);
 
     //frc::SmartDashboard::PutNumber("shooterVelocityRAW: ", rawSensorVelocity);
     double shooterVelocityRPM = double(rawSensorVelocityTop) * CONVERT_VELOCITY_TICKS_TO_RPM;
