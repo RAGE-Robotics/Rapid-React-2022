@@ -14,6 +14,10 @@
 
 #define DEG_TO_RAD (M_PI / 180.0)
 
+// Uncomment to build code for the parade robot.
+// Comment out the line to build for the competition robot
+//#define PARADE_ROBOT
+
 //Test mode enter true = 1
 #define TEST_MODE 1
 
@@ -50,10 +54,17 @@
 #define TEST_JOYSTICK_USB 0
 
 //List CAN Devices
-#define LEFT_FRONT_DRIVE_MOTOR_CAN 7  //FX //1
-#define LEFT_REAR_DRIVE_MOTOR_CAN 11  //FX //2
-#define RIGHT_FRONT_DRIVE_MOTOR_CAN 9 //FX //3
-#define RIGHT_REAR_DRIVE_MOTOR_CAN 6  //FX //4
+#ifdef PARADE_ROBOT
+    #define LEFT_FRONT_DRIVE_MOTOR_CAN 1  //FX
+    #define LEFT_REAR_DRIVE_MOTOR_CAN 2   //FX
+    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 3 //FX
+    #define RIGHT_REAR_DRIVE_MOTOR_CAN 4  //FX
+#else
+    #define LEFT_FRONT_DRIVE_MOTOR_CAN 7  //FX
+    #define LEFT_REAR_DRIVE_MOTOR_CAN 11  //FX
+    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 9 //FX
+    #define RIGHT_REAR_DRIVE_MOTOR_CAN 6  //FX
+#endif
 
 // #define INTAKE_ROLLER_MOTOR_CAN 6 //SRX
 #define SHOOTER_MOTOR_TOP_CAN 2
