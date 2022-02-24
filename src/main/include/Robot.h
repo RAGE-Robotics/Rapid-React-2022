@@ -36,7 +36,7 @@ private:
     frc::SendableChooser<std::string> m_limelightLEDChooser;
     std::string m_limelightLEDModeSelected;
 
-    // frc::Joystick m_testStick{TEST_JOYSTICK};
+    frc::Joystick m_testStick{TEST_JOYSTICK_USB};
     frc::Joystick driverLeftStick{LEFT_DRIVER_JOYSTICK_USB};
     frc::Joystick driverRightStick{RIGHT_DRIVER_JOYSTICK_USB};
     frc::Joystick operatorLeftStick{LEFT_OPERATOR_JOYSTICK_USB};

@@ -18,6 +18,8 @@
   "files.associations": {
     "thread": "cpp",
     "functional": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "*.inc": "cpp",
+    "numbers": "cpp"
   }
 }

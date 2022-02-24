@@ -163,6 +163,7 @@ bool Shooter::Shoot(bool fire)
     if (fire == true)
     {
         // start the shooter wheel
+        
         SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
         SetShooterSpeedBottomVelocityRPM(shooterSpeedBottomVelocity);
 

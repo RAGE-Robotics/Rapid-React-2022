@@ -33,7 +33,7 @@ public:
     double kI;
     double kD;
 
-    int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY;
+    int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY; // Why not just use the defined constant within the .cpp?
     int shooterSpeedBottomVelocity = SHOOTER_SPEED_BOTTOM_VELOCITY;
 
     bool shooterIsControllingIntakeConveyor; // Allow shooter to override the intake button

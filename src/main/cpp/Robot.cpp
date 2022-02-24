@@ -79,6 +79,7 @@ void Robot::TeleopInit()
     //  std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
 
     leds.displayTeamColor();
+    wpi::outs() << "asjhdssx\n";
 }
 
 void Robot::TeleopPeriodic()
@@ -105,8 +106,10 @@ void Robot::TeleopPeriodic()
     // {
     //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
     // }
-
-    base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
+    
+    //working code, need to comment to debug
+    
+    base.TankDrive(m_testStick.GetY(), m_testStick.GetY());
     if (m_gameTimer.HasElapsed((units::second_t)120.0))
     {
         leds.displayFallingLights();
@@ -119,6 +122,7 @@ void Robot::TeleopPeriodic()
     {
         gearSolenoid.Set(false);
     }
+ 
     if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))
     {
        shooter.Shoot(true); 

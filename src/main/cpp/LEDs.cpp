@@ -7,7 +7,6 @@ LEDs::LEDs()
     m_led.SetLength(kLength);
     m_led.SetData(m_ledBuffer);
     m_led.Start();
-    // std::cout << "Constructor for LEDs called." << std::endl;
 }
 
 void LEDs::displayRainbow()
@@ -27,8 +26,10 @@ void LEDs::displayRainbow()
         bool shouldLight = (i % spacing) == offset;
         if (shouldLight)
         {
-            m_ledBuffer[i].SetHSV((int)((i / (float)kLength) * 180 + ((int)m_LEDTimer.Get() * 180)) % 180, // Rotating hue, 180 degrees a second
-                                  255, 255);
+            m_ledBuffer[i].SetHSV(
+                (int)((i / (float)kLength) * 180 + ((int)m_LEDTimer.Get() * 180)) % 180, // Rotating hue, 180 degrees a second
+                255, // Max shade
+                255); // Max value
         }
         else
         {
