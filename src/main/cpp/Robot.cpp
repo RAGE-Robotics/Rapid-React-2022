@@ -106,9 +106,9 @@ void Robot::TeleopPeriodic()
     // {
     //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
     // }
-    
-    //working code, need to comment to debug
-    
+
+    // working code, need to comment to debug
+
     base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
     if (m_gameTimer.HasElapsed((units::second_t)120.0))
     {
@@ -122,14 +122,37 @@ void Robot::TeleopPeriodic()
     {
         gearSolenoid.Set(false);
     }
- 
+
     if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))
     {
-       shooter.Shoot(true); 
+        shooter.Shoot(true);
     }
     if (operatorRightStick.GetRawButtonReleased(SHOOT_BUTTON))
     {
-       shooter.Shoot(false); 
+        shooter.Shoot(false);
+    }
+    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON))
+    {
+        base.IntakeMotor(true);
+    }
+    else
+    {
+        base.IntakeMotor(false);
+    }
+    if (operatorLeftStick.GetRawButton(CONVEYOR_ON_BUTTON))
+    {
+        if (operatorLeftStick.GetRawButton(CONVEYOR_DIRECTION_BUTTON))
+        {
+            base.ConveyorMotor(true, false);
+        }
+        else
+        {
+            base.ConveyorMotor(true, true);
+        }
+    }
+    else
+    {
+        base.ConveyorMotor(false, 0);
     }
 }
 
