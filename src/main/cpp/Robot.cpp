@@ -109,7 +109,7 @@ void Robot::TeleopPeriodic()
     
     //working code, need to comment to debug
     
-    base.TankDrive(m_testStick.GetY(), m_testStick.GetY());
+    base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
     if (m_gameTimer.HasElapsed((units::second_t)120.0))
     {
         leds.displayFallingLights();

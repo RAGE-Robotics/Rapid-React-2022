@@ -17,4 +17,7 @@ private:
 
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX rightFrontMotor{RIGHT_FRONT_DRIVE_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX rightRearMotor{RIGHT_REAR_DRIVE_MOTOR_CAN};
+
+    //frc::Solenoid shifter{frc::PneumaticsModuleType::CTREPCM, 0};
+    //frc::DoubleSolenoid shifter{GEAR_SHIFT_DOUBLE_SOLENOID, frc::PneumaticsModuleType::CTREPCM, };
 };

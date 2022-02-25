@@ -8,3 +8,7 @@ void Base::TankDrive(double leftSpeed, double rightSpeed)
     rightFrontMotor.Set(ControlMode::PercentOutput, rightSpeed);
     rightRearMotor.Set(ControlMode::PercentOutput, rightSpeed);
 }
+
+// void Base::SetGear(bool isHighGear) {
+//     shifter.Set(isHighGear);
+// }
