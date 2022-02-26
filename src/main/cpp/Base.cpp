@@ -12,28 +12,23 @@ void Base::TankDrive(double leftSpeed, double rightSpeed)
 void Base::IntakeMotor(bool isOn)
 {
     if (isOn)
+    {
         intakeMotor.Set(ControlMode::PercentOutput, INTAKE_ROLLER_MOTOR_SPEED);
-
+    }
     else
+    {
         intakeMotor.Set(ControlMode::PercentOutput, 0);
+    }
 }
 
-void Base::ConveyorMotor(bool isOn, bool Direction)
+void Base::ConveyorMotor(bool isOn, int direction)
 {
-    int dir1;
-    if (Direction)
-    dir1 = 1;
-    else
-    dir1 = -1;
     if (isOn)
-        conveyorMotor.Set(ControlMode::PercentOutput, LOWER_CONVEYOR_MOTOR_SPEED * dir1);
+    {
+        conveyorMotor.Set(ControlMode::PercentOutput, LOWER_CONVEYOR_MOTOR_SPEED * direction);
+    }
     else
+    {
          conveyorMotor.Set(ControlMode::PercentOutput, 0);
-
-
+    }
 }
-
-
-// void Base::SetGear(bool isHighGear) {
-//     shifter.Set(isHighGear);
-// }

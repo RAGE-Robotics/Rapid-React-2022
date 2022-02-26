@@ -143,11 +143,11 @@ void Robot::TeleopPeriodic()
     {
         if (operatorLeftStick.GetRawButton(CONVEYOR_DIRECTION_BUTTON))
         {
-            base.ConveyorMotor(true, false);
+            base.ConveyorMotor(true, BACKWARD);
         }
         else
         {
-            base.ConveyorMotor(true, true);
+            base.ConveyorMotor(true, FORWARD);
         }
     }
     else

@@ -190,14 +190,6 @@ bool Shooter::Shoot(bool fire)
 }
 
 #if 0
-double Shooter::GetShooterTemperature()
-{
-    double temperature;
-    temperature = shooterMotor.GetTemperature();
-    frc::SmartDashboard::PutNumber("shooterTemp:", temperature);
-    return temperature;
-}
-
 double Shooter::SetShooterAngle(double angle)
 {
     // Angle in raw count units
@@ -221,11 +213,6 @@ void Shooter::SetIntakeRollerSpeed(double rollerSpeed)
     // IsBallBlockingLowerSensor();
 }
 
-void Shooter::SetExtendableIntakeRollerSpeed(double rollerSpeed)
-{
-    extendableIntakeMotor.Set(rollerSpeed);
-}
-
 void Shooter::SetShooterFeedMotorSpeed(double feedmotorspeed)
 {
     shooterFeedMotor.Set(feedmotorspeed);
@@ -236,18 +223,6 @@ void Shooter::SetLowerConveyorIntakeMotorSpeed(double motorSpeed)
     SqueezeConveyor(false);
     // SetIntakeRollerSpeed(motorSpeed);
     lowerConveyorMotor.Set(motorSpeed);
-}
-
-void Shooter::SqueezeConveyor(bool squeeze)
-{
-    if (squeeze == true)
-    {
-        conveyorSqueezePiston.Set(frc::DoubleSolenoid::kForward);
-    }
-    else
-    {
-        conveyorSqueezePiston.Set(frc::DoubleSolenoid::kReverse);
-    }
 }
 
 void Shooter::GrabTheBall(bool grab)
@@ -280,18 +255,6 @@ void Shooter::GrabTheBall(bool grab)
             // SetLowerConveyorIntakeMotorSpeed(0.0);
             // SetShooterFeedMotorSpeed(0.0);
         }
-    }
-}
-
-bool Shooter::IsShooterMotorTooHot(void)
-{
-    if (GetShooterTemperature() > MAX_MOTOR_TEMP)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 

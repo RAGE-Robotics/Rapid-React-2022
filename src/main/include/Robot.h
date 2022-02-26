@@ -43,9 +43,9 @@ private:
     frc::Joystick operatorRightStick{RIGHT_OPERATOR_JOYSTICK_USB};
 
     LEDs leds;
-    Base base; // Based
-    Camera limelightCamera;
+    Base base;
     Shooter shooter; 
+    Camera limelightCamera;
 
     frc::Solenoid gearSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOUBLE_SOLENOID};
 };
