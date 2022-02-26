@@ -50,6 +50,9 @@ void Robot::AutonomousInit()
     // std::cout << "Auto selected: " << m_autoSelected << std::endl;
     // std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
 
+    autoController.setActions(k_testActions); // k_testActions is defined in Auto.h
+    autoController.start();
+
     if (m_autoSelected == kAutoNameCustom)
     {
         // Custom Auto goes here
@@ -63,6 +66,27 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
     leds.displayRainbow();
+
+    ActionType currentAction = autoController.getCurrentAction();
+
+    switch (currentAction)
+    {
+    case ActionType::DRIVE_FORWARD:
+        //wpi::outs() << "Driving Forwards!\n";
+        base.TankDrive(0.5, 0.5);
+        break;
+    case ActionType::DRIVE_BACKWARD:
+        base.TankDrive(-0.5, -0.5);
+        //wpi::outs() << "Driving Backwards!\n";
+        break;
+    case ActionType::NOTHING:
+        base.TankDrive(0.0, 0.0);
+        //wpi::outs() << "Doing nothing...\n";
+        break;
+    default:
+        break;
+    }
+
     if (m_autoSelected == kAutoNameCustom)
     {
         // Custom Auto goes here

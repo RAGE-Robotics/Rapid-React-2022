@@ -9,6 +9,7 @@
 #include "Base.h"
 #include "Camera.h"
 #include "Shooter.h"
+#include "Auto.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -41,6 +42,8 @@ private:
     frc::Joystick driverRightStick{RIGHT_DRIVER_JOYSTICK_USB};
     frc::Joystick operatorLeftStick{LEFT_OPERATOR_JOYSTICK_USB};
     frc::Joystick operatorRightStick{RIGHT_OPERATOR_JOYSTICK_USB};
+
+    AutoController autoController;
 
     LEDs leds;
     Base base;

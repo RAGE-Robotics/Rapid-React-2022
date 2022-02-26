@@ -16,7 +16,7 @@
 
 // Uncomment to build code for the parade robot.
 // Comment out the line to build for the competition robot
-//#define PARADE_ROBOT
+#define PARADE_ROBOT
 
 //Test mode enter true = 1
 #define TEST_MODE 1
@@ -57,10 +57,10 @@
     #define RIGHT_REAR_DRIVE_MOTOR_CAN 6    //SRX
 #endif
 
-#define INTAKE_ROLLER_MOTOR_CAN 9           //SRX
+#define INTAKE_ROLLER_MOTOR_CAN 7           //SRX
 #define SHOOTER_MOTOR_TOP_CAN 2
 #define SHOOTER_MOTOR_BOTTOM_CAN 5
-#define SHOOTER_FEED_MOTOR_CAN 7            //SRX
+#define SHOOTER_FEED_MOTOR_CAN 8            //SRX
 
 //define all PCMs here
 #define GEAR_SHIFT_DOUBLE_SOLENOID 0
