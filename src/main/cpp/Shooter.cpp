@@ -158,35 +158,37 @@ double Shooter::GetShooterSpeedRPM()
     return shooterVelocityRPM;
 }
 
-bool Shooter::Shoot(bool fire)
+void Shooter::SpinUpShooterMotors(void)
 {
-    if (fire == true)
-    {
-        // start the shooter wheel
-        
-        SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
-        SetShooterSpeedBottomVelocityRPM(shooterSpeedBottomVelocity);
+    SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
+    SetShooterSpeedBottomVelocityRPM(shooterSpeedBottomVelocity);
+}
 
-        // we may have to wait for an acceptable speed
-        // if (GetShooterSpeedRPM() > (shooterSpeedTopVelocity * 0.95)) // adjust the speed limit as needed
-        // {
-        //    SetLowerConveyorIntakeMotorSpeed(LOWER_CONVEYOR_MOTOR_SPEED);
-        //    SetShooterFeedMotorSpeed(SHOOTER_FEED_MOTOR_SPEED);
-        //    SqueezeConveyor(true);
-        //    shooterIsControllingIntakeConveyor = true; // Allow shooter to override the intake button
-        // }
-    }
-    else
-    {
-        SetShooterSpeedTopVoltage(0.0);
-        SetShooterSpeedBottomVoltage(0.0);
-        // SetRollerAndLowerConveyorIntakeMotorSpeed(0); //This will happen because we aren't picking up balls
-        // SetShooterFeedMotorSpeed(0);
-        // SetLowerConveyorIntakeMotorSpeed(0);
-        // SqueezeConveyor(false);
-        shooterIsControllingIntakeConveyor = false; // Shooter doesn't need it now
-    }
-    return true;
+void Shooter::ShutDownShooterMotors(void)
+{
+    SetShooterSpeedTopVelocityRPM(0);
+    SetShooterSpeedBottomVelocityRPM(0);
+}
+
+void Shooter::Shoot(void)
+{
+    // Check to be sure wheels are up to speed
+
+    // When they are, fire solenoid
+
+    // start the shooter wheel
+    
+    SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
+    SetShooterSpeedBottomVelocityRPM(shooterSpeedBottomVelocity);
+
+    // we may have to wait for an acceptable speed
+    // if (GetShooterSpeedRPM() > (shooterSpeedTopVelocity * 0.95)) // adjust the speed limit as needed
+    // {
+    //    SetLowerConveyorIntakeMotorSpeed(LOWER_CONVEYOR_MOTOR_SPEED);
+    //    SetShooterFeedMotorSpeed(SHOOTER_FEED_MOTOR_SPEED);
+    //    SqueezeConveyor(true);
+    //    shooterIsControllingIntakeConveyor = true; // Allow shooter to override the intake button
+    // }
 }
 
 #if 0

@@ -11,10 +11,13 @@ enum class ActionType
     DRIVE_BACKWARD,
     TURN_LEFT,
     TURN_RIGHT,
-    SHOOT,
-    INTAKE,
-    RANGE,
-    SET_ANGLE
+    SHOOT_ON,
+    SHOOT_OFF,
+    INTAKE_ON,
+    INTAKE_OFF,
+    RANGE, // For camera code, potentially?
+    INCREASE_SHOOTER_ANGLE,
+    DECREASE_SHOOTER_ANGLE
 };
 
 struct AutoAction
@@ -32,14 +35,20 @@ struct AutoAction
 };
 
 // DEFINED ACTION LISTS (Should probably be moved)==================================================
-const std::vector<AutoAction> k_testActions{
+const std::vector<AutoAction> k_forwardBack{
     AutoAction(
         ActionType::DRIVE_FORWARD,
-        3.0f,
-        1.0f),
+        3.0f, // Duration
+        1.0f), // Delay
     AutoAction(
         ActionType::DRIVE_BACKWARD,
-        3.0f,
+        3.0f, // Duration
+        1.0f)}; // Delay
+
+const std::vector<AutoAction> k_doNothing{
+    AutoAction(
+        ActionType::NOTHING,
+        94823490239.0f, // 3006 years. If a competition lasts longer than that, we have an issue
         1.0f)};
 
 // ================================================================================================
@@ -52,14 +61,17 @@ public:
         m_actions = p_actionList;
     };
 
-    void start();
+    void start(); // Reverts to the first action within the list and resets the timer
     void setActions(std::vector<AutoAction> p_actionList);
-    ActionType getCurrentAction();
+    ActionType getCurrentAction(); // Returns an enum ActionType, for use in a switch statement
 
 private:
-    frc::Timer m_currentActionTimer;
+    // A timer representing progress through the current timer
+    // Resets and increments index after the action is complete
+    frc::Timer m_currentActionTimer; 
 
     unsigned int currActionIndex = 0;
 
-    std::vector<AutoAction> m_actions;
+    // List of actions currently assigned to the controller, can change
+    std::vector<AutoAction> m_actions; 
 };

@@ -4,15 +4,15 @@
 
 void Robot::RobotInit()
 {
-    m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-    m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
-    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    m_chooser.SetDefaultOption("Do nothing", "donothing");
+    m_chooser.AddOption("Forwards then back", "forwardback");
+    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-    // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
-    // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
-    // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
-    // m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
-    // frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
+    m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
+    m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
+    m_limelightLEDChooser.AddOption("LEDs On", "ledson");
+    m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
+    frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
 
     leds.displayTeamColor();
 }
@@ -43,23 +43,17 @@ void Robot::AutonomousInit()
     m_gameTimer.Reset();
     m_gameTimer.Start();
     m_autoSelected = m_chooser.GetSelected();
-    // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
+    m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
-    // m_autoSelected = SmartDashboard::GetString("Auto Selector",
-    //     kAutoNameDefault);
-    // std::cout << "Auto selected: " << m_autoSelected << std::endl;
-    // std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
-
-    autoController.setActions(k_testActions); // k_testActions is defined in Auto.h
     autoController.start();
 
-    if (m_autoSelected == kAutoNameCustom)
+    if (m_autoSelected == "forwardback")
     {
-        // Custom Auto goes here
+        autoController.setActions(k_forwardBack); // k_forwardBack is defined in Auto.h
     }
-    else
+    else if (m_autoSelected == "donothing")
     {
-        // Default Auto goes here
+        autoController.setActions(k_doNothing); // k_doNothing is defined in Auto.h
     }
 }
 
@@ -67,26 +61,6 @@ void Robot::AutonomousPeriodic()
 {
     leds.displayRainbow();
 
-    ActionType currentAction = autoController.getCurrentAction();
-
-    switch (currentAction)
-    {
-    case ActionType::DRIVE_FORWARD:
-        //wpi::outs() << "Driving Forwards!\n";
-        base.TankDrive(0.5, 0.5);
-        break;
-    case ActionType::DRIVE_BACKWARD:
-        base.TankDrive(-0.5, -0.5);
-        //wpi::outs() << "Driving Backwards!\n";
-        break;
-    case ActionType::NOTHING:
-        base.TankDrive(0.0, 0.0);
-        //wpi::outs() << "Doing nothing...\n";
-        break;
-    default:
-        break;
-    }
-
     if (m_autoSelected == kAutoNameCustom)
     {
         // Custom Auto goes here
@@ -95,49 +69,43 @@ void Robot::AutonomousPeriodic()
     {
         // Default Auto goes here
     }
+
+    ActionType currentAction = autoController.getCurrentAction();
+
+    switch (currentAction)
+    {
+    case ActionType::DRIVE_FORWARD:
+        // wpi::outs() << "Driving Forwards!\n";
+        base.TankDrive(0.2, 0.2);
+        break;
+    case ActionType::DRIVE_BACKWARD:
+        base.TankDrive(-0.2, -0.2);
+        // wpi::outs() << "Driving Backwards!\n";
+        break;
+    case ActionType::NOTHING:
+        base.TankDrive(0.0, 0.0);
+        // wpi::outs() << "Doing nothing...\n";
+        break;
+    default:
+        break;
+    }
 }
 
 void Robot::TeleopInit()
 {
-    // m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
-    //  std::cout << "Limelight LED Mode Selected: " << m_limelightLEDModeSelected << std::endl;
+    m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
     leds.displayTeamColor();
-    wpi::outs() << "asjhdssx\n";
 }
 
 void Robot::TeleopPeriodic()
 {
-#if 0
-    if (m_limelightLEDModeSelected == "default")
-    {
-      limelightCamera.setLEDsToDefault();
-    }
-    else if (m_limelightLEDModeSelected == "ledsoff")
-    {
-      limelightCamera.turnOffLEDs();
-    }
-    else if (m_limelightLEDModeSelected == "ledson")
-    {
-      limelightCamera.turnOnLEDs();
-    }
-    else if (m_limelightLEDModeSelected == "ledsblinking")
-    {
-      limelightCamera.turnOffLEDs();
-    }
-#endif
-    // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
-    // {
-    //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
-    // }
-
-    // working code, need to comment to debug
-
+    ///////////////////////////////////////////////////////
+    // Base driving
     base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
-    if (m_gameTimer.HasElapsed((units::second_t)120.0))
-    {
-        leds.displayFallingLights();
-    }
+
+    ///////////////////////////////////////////////////////
+    // Driver shifters
     if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
     {
         gearSolenoid.Set(true);
@@ -147,14 +115,26 @@ void Robot::TeleopPeriodic()
         gearSolenoid.Set(false);
     }
 
+    ///////////////////////////////////////////////////////
+    // Operator shooting motors
+    if (operatorRightStick.GetRawButtonPressed(SHOOTER_MOTOR_ON_BUTTON))
+    {
+        shooter.SpinUpShooterMotors();
+    }
+    if (operatorRightStick.GetRawButtonReleased(SHOOTER_MOTOR_ON_BUTTON))
+    {
+        shooter.ShutDownShooterMotors();
+    }
+
+    ///////////////////////////////////////////////////////
+    // Operator shoot the ball
     if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))
     {
-        shooter.Shoot(true);
+        shooter.Shoot();
     }
-    if (operatorRightStick.GetRawButtonReleased(SHOOT_BUTTON))
-    {
-        shooter.Shoot(false);
-    }
+
+    ///////////////////////////////////////////////////////
+    // Operator ball intake
     if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON))
     {
         base.IntakeMotor(true);
@@ -163,6 +143,9 @@ void Robot::TeleopPeriodic()
     {
         base.IntakeMotor(false);
     }
+
+    ///////////////////////////////////////////////////////
+    // Operator conveyor control
     if (operatorLeftStick.GetRawButton(CONVEYOR_ON_BUTTON))
     {
         if (operatorLeftStick.GetRawButton(CONVEYOR_DIRECTION_BUTTON))
@@ -178,6 +161,37 @@ void Robot::TeleopPeriodic()
     {
         base.ConveyorMotor(false, 0);
     }
+
+    ///////////////////////////////////////////////////////
+    // LEDs
+    if (m_gameTimer.HasElapsed((units::second_t)120.0))
+    {
+        leds.displayFallingLights();
+    }
+
+    ///////////////////////////////////////////////////////
+    // Camera operation
+    if (m_limelightLEDModeSelected == "default")
+    {
+        limelightCamera.setLEDsToDefault();
+    }
+    else if (m_limelightLEDModeSelected == "ledsoff")
+    {
+        limelightCamera.turnOffLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledson")
+    {
+        limelightCamera.turnOnLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledsblinking")
+    {
+        limelightCamera.blinkLEDs();
+    }
+
+    // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
+    // {
+    //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
+    // }
 }
 
 void Robot::DisabledInit() {}

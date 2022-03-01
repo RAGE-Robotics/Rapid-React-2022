@@ -12,14 +12,14 @@ public:
     double SetShooterSpeedTopVoltage(double voltage);
     double SetShooterSpeedBottomVoltage(double voltage);
     double GetShooterSpeedRPM();
-    double GetShooterTemperature();
     double SetShooterAngle(double angle);
     double GetShooterAngle(void);
     void SetIntakeRollerSpeed(double rollerSpeed);
     void SetLowerConveyorIntakeMotorSpeed(double motorSpeed);
     void SetShooterFeedMotorSpeed(double feedmotorspeed);
-    void GrabTheBall(bool grab);
-    bool Shoot(bool fire);
+    void SpinUpShooterMotors(void);
+    void ShutDownShooterMotors(void);
+    void Shoot(void);
     bool IsBallBlockingLowerSensor(void);
 
     int kTimeoutMs = 0;
