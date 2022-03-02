@@ -117,15 +117,18 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Operator shooting motors
-    if (operatorRightStick.GetRawButtonPressed(SHOOTER_MOTOR_ON_BUTTON))
+    if (operatorRightStick.GetRawButton(SHOOTER_MOTOR_ON_BUTTON))
     {
         shooter.SpinUpShooterMotors();
     }
-    if (operatorRightStick.GetRawButtonReleased(SHOOTER_MOTOR_ON_BUTTON))
+    else //(operatorRightStick.GetRawButtonReleased(SHOOTER_MOTOR_ON_BUTTON))
     {
         shooter.ShutDownShooterMotors();
     }
-
+    
+    shooter.GetShooterSpeedTopRPM();
+    shooter.GetShooterSpeedBottomRPM();
+    
     ///////////////////////////////////////////////////////
     // Operator shoot the ball
     if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))

@@ -11,11 +11,12 @@ public:
     double SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
     double SetShooterSpeedTopVoltage(double voltage);
     double SetShooterSpeedBottomVoltage(double voltage);
-    double GetShooterSpeedRPM();
+    double GetShooterSpeedTopRPM();
+    double GetShooterSpeedBottomRPM();
     double SetShooterAngle(double angle);
     double GetShooterAngle(void);
     void SetIntakeRollerSpeed(double rollerSpeed);
-    void SetLowerConveyorIntakeMotorSpeed(double motorSpeed);
+    void SetConveyorIntakeMotorSpeed(double motorSpeed);
     void SetShooterFeedMotorSpeed(double feedmotorspeed);
     void SpinUpShooterMotors(void);
     void ShutDownShooterMotors(void);
