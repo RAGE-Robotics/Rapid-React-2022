@@ -108,11 +108,13 @@ void Robot::TeleopPeriodic()
     // Driver shifters
     if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
     {
-        gearSolenoid.Set(true);
+        gearDownSolenoid.Set(false);
+        gearUpSolenoid.Set(true);
     }
     if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
     {
-        gearSolenoid.Set(false);
+        gearUpSolenoid.Set(false);
+        gearDownSolenoid.Set(true);
     }
 
     ///////////////////////////////////////////////////////
@@ -121,7 +123,7 @@ void Robot::TeleopPeriodic()
     {
         shooter.SpinUpShooterMotors();
     }
-    else //(operatorRightStick.GetRawButtonReleased(SHOOTER_MOTOR_ON_BUTTON))
+    else
     {
         shooter.ShutDownShooterMotors();
     }
@@ -145,6 +147,18 @@ void Robot::TeleopPeriodic()
     else
     {
         base.IntakeMotor(false);
+    }
+
+    if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
+    {
+        retractIntakeSolenoid.Set(false);
+        deployIntakeSolenoid.Set(true);
+    }
+
+    if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
+    {
+        deployIntakeSolenoid.Set(false);
+        retractIntakeSolenoid.Set(true);
     }
 
     ///////////////////////////////////////////////////////

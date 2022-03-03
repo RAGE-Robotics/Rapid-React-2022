@@ -50,5 +50,9 @@ private:
     Shooter shooter; 
     Camera limelightCamera;
 
-    frc::Solenoid gearSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOUBLE_SOLENOID};
+    frc::Solenoid gearUpSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_UP_SOLENOID};
+    frc::Solenoid gearDownSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOWN_SOLENOID};
+    frc::Solenoid ballGateSolenoid{frc::PneumaticsModuleType::CTREPCM, BALL_GATE_SOLENOID};
+    frc::Solenoid deployIntakeSolenoid{frc::PneumaticsModuleType::CTREPCM, DEPLOY_INTAKE_SOLENOID};
+    frc::Solenoid retractIntakeSolenoid{frc::PneumaticsModuleType::CTREPCM, RETRACT_INTAKE_SOLENOID};
 };

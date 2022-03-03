@@ -23,13 +23,18 @@ public:
     void Shoot(void);
     bool IsBallBlockingLowerSensor(void);
 
-    int kTimeoutMs = 0;
-    int ballCount = 0;
+    int kTimeoutMs {0};
+    int ballCount {0};
 
-    double kF;
-    double kP;
-    double kI;
-    double kD;
+    double top_kF {0.};
+    double top_kP {0.};
+    double top_kI {0.};
+    double top_kD {0.};
+
+    double bot_kF {0.};
+    double bot_kP {0.};
+    double bot_kI {0.};
+    double bot_kD {0.};
 
     int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY;
     int shooterSpeedBottomVelocity = SHOOTER_SPEED_BOTTOM_VELOCITY;

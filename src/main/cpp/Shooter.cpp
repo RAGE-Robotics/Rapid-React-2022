@@ -16,26 +16,37 @@ Shooter::Shooter()
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
     kTimeoutMs = 0;
-    kF = 0;       // 0.1
-    kP = 0.25;    // 0.15
-    kI = 0.00008; // 0.0001
-    kD = 0.01;
+    
+    top_kF = 0;       // 0.1
+    top_kP = 0.25;    // 0.15
+    top_kI = 0.00008; // 0.0001
+    top_kD = 0.01;
 
-    frc::SmartDashboard::PutNumber("kF", kF);
-    frc::SmartDashboard::PutNumber("kP", kP);
-    frc::SmartDashboard::PutNumber("kI", kI);
-    frc::SmartDashboard::PutNumber("kD", kD);
+    bot_kF = 0;       // 0.1
+    bot_kP = 0.25;    // 0.15
+    bot_kI = 0.00008; // 0.0001
+    bot_kD = 0.01;
+
+    frc::SmartDashboard::PutNumber("Top kF", top_kF);
+    frc::SmartDashboard::PutNumber("Top kP", top_kP);
+    frc::SmartDashboard::PutNumber("Top kI", top_kI);
+    frc::SmartDashboard::PutNumber("Top kD", top_kD);
+
+    frc::SmartDashboard::PutNumber("Bot kF", bot_kF);
+    frc::SmartDashboard::PutNumber("Bot kP", bot_kP);
+    frc::SmartDashboard::PutNumber("Bot kI", bot_kI);
+    frc::SmartDashboard::PutNumber("Bot kD", bot_kD);
 
     // for velocity feedback
-    shooterMotorTop.Config_kF(0, kF, kTimeoutMs);
-    shooterMotorTop.Config_kP(0, kP, kTimeoutMs); // Accelerates at .5 try 0.1
-    shooterMotorTop.Config_kI(0, kI, kTimeoutMs);
-    shooterMotorTop.Config_kD(0, kD, kTimeoutMs);
+    shooterMotorTop.Config_kF(0, top_kF, kTimeoutMs);
+    shooterMotorTop.Config_kP(0, top_kP, kTimeoutMs); // Accelerates at .5 try 0.1
+    shooterMotorTop.Config_kI(0, top_kI, kTimeoutMs);
+    shooterMotorTop.Config_kD(0, top_kD, kTimeoutMs);
 
-    shooterMotorBottom.Config_kF(0, kF, kTimeoutMs);
-    shooterMotorBottom.Config_kP(0, kP, kTimeoutMs); // Accelerates at .5 try 0.1
-    shooterMotorBottom.Config_kI(0, kI, kTimeoutMs);
-    shooterMotorBottom.Config_kD(0, kD, kTimeoutMs);
+    shooterMotorBottom.Config_kF(0, bot_kF, kTimeoutMs);
+    shooterMotorBottom.Config_kP(0, bot_kP, kTimeoutMs); // Accelerates at .5 try 0.1
+    shooterMotorBottom.Config_kI(0, bot_kI, kTimeoutMs);
+    shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
 
     //RaiseShooterHood(true); // Hood ready in raised positoin
     // shooterLeadScrewMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 30);
@@ -63,40 +74,41 @@ double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
         SetShooterSpeedBottomVoltage(0.0);
         return 0;
     }
-    // double newF = frc::SmartDashboard::GetNumber("kF", 0);
-    // double newP = frc::SmartDashboard::GetNumber("kP", 0);
-    // double newI = frc::SmartDashboard::GetNumber("kI", 0);
-    // double newD = frc::SmartDashboard::GetNumber("kD", 0);
-    //int newShooterSpeedVelocity = frc::SmartDashboard::GetNumber("Set Shooter Speed", 0);
-    // frc::SmartDashboard::PutNumber("newF", newF);
+    double newF = frc::SmartDashboard::GetNumber("Bot kF", 0);
+    double newP = frc::SmartDashboard::GetNumber("Bot kP", 0);
+    double newI = frc::SmartDashboard::GetNumber("Bot kI", 0);
+    double newD = frc::SmartDashboard::GetNumber("Bot kD", 0);
+
+    int newShooterSpeedVelocity = frc::SmartDashboard::GetNumber("Set Shooter Bottom Speed", 0);
+    frc::SmartDashboard::PutNumber("newF", newF);
+
     // for velocity feedback
-    // if (newF != kF)
-    // {
-    //     kF = newF;
-    //     shooterMotor.Config_kF(0, kF, kTimeoutMs);
-    // }
-    // if (newP != kP)
-    // {
-    //     kP = newP;
-    //     shooterMotor.Config_kP(0, kP, kTimeoutMs);
-    // } // Accelerates at .5 try 0.1
-    // if (newI != kI)
-    // {
-    //     kI = newI;
-    //     shooterMotor.Config_kI(0, kI, kTimeoutMs);
-    // }
-    // if (newD != kD)
-    // {
-    //     kD = newD;
-    //     shooterMotor.Config_kD(0, kD, kTimeoutMs);
-    // }
-    // if (newShooterSpeedVelocity != shooterSpeedVelocity)
-    // {
-    //     shooterSpeedVelocity = newShooterSpeedVelocity;
-    // }
+    if (newF != bot_kF)
+    {
+        bot_kF = newF;
+        shooterMotorBottom.Config_kF(0, bot_kF, kTimeoutMs);
+    }
+    if (newP != bot_kP)
+    {
+        bot_kP = newP;
+        shooterMotorBottom.Config_kP(0, bot_kP, kTimeoutMs);
+    } // Accelerates at .5 try 0.1
+    if (newI != bot_kI)
+    {
+        bot_kI = newI;
+        shooterMotorBottom.Config_kI(0, bot_kI, kTimeoutMs);
+    }
+    if (newD != bot_kD)
+    {
+        bot_kD = newD;
+        shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
+    }
+    if (newShooterSpeedVelocity != shooterSpeedBottomVelocity)
+    {
+        shooterSpeedBottomVelocity = newShooterSpeedVelocity;
+    }
 
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
-    shooterMotorTop.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
     shooterMotorBottom.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
 
     return 0;
@@ -109,32 +121,34 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
         SetShooterSpeedTopVoltage(0.0);
         return 0;
     }
-    double newF = frc::SmartDashboard::GetNumber("kF", 0);
-    double newP = frc::SmartDashboard::GetNumber("kP", 0);
-    double newI = frc::SmartDashboard::GetNumber("kI", 0);
-    double newD = frc::SmartDashboard::GetNumber("kD", 0);
-    int newShooterSpeedVelocity = frc::SmartDashboard::GetNumber("Set Shooter Speed", 0);
+    double newF = frc::SmartDashboard::GetNumber("Top kF", 0);
+    double newP = frc::SmartDashboard::GetNumber("Top kP", 0);
+    double newI = frc::SmartDashboard::GetNumber("Top kI", 0);
+    double newD = frc::SmartDashboard::GetNumber("Top kD", 0);
+
+    int newShooterSpeedVelocity = frc::SmartDashboard::GetNumber("Set Shooter Top Speed", 0);
     frc::SmartDashboard::PutNumber("newF", newF);
+
     // for velocity feedback
-    if (newF != kF)
+    if (newF != top_kF)
     {
-        kF = newF;
-        shooterMotorTop.Config_kF(0, kF, kTimeoutMs);
+        top_kF = newF;
+        shooterMotorTop.Config_kF(0, top_kF, kTimeoutMs);
     }
-    if (newP != kP)
+    if (newP != top_kP)
     {
-        kP = newP;
-        shooterMotorTop.Config_kP(0, kP, kTimeoutMs);
+        top_kP = newP;
+        shooterMotorTop.Config_kP(0, top_kP, kTimeoutMs);
     } // Accelerates at .5 try 0.1
-    if (newI != kI)
+    if (newI != top_kI)
     {
-        kI = newI;
-        shooterMotorTop.Config_kI(0, kI, kTimeoutMs);
+        top_kI = newI;
+        shooterMotorTop.Config_kI(0, top_kI, kTimeoutMs);
     }
-    if (newD != kD)
+    if (newD != top_kD)
     {
-        kD = newD;
-        shooterMotorTop.Config_kD(0, kD, kTimeoutMs);
+        top_kD = newD;
+        shooterMotorTop.Config_kD(0, top_kD, kTimeoutMs);
     }
     if (newShooterSpeedVelocity != shooterSpeedTopVelocity)
     {
@@ -143,7 +157,6 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
     shooterMotorTop.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
-    shooterMotorBottom.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
 
     return 0;
 }
