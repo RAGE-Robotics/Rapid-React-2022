@@ -59,7 +59,7 @@
     #define RIGHT_REAR_DRIVE_MOTOR_CAN 6    //SRX
 #endif
 
-#define INTAKE_ROLLER_MOTOR_CAN 7           //SRX
+#define INTAKE_ROLLER_MOTOR_CAN 10          //SRX
 #define SHOOTER_MOTOR_TOP_CAN 2
 #define SHOOTER_MOTOR_BOTTOM_CAN 5
 #define SHOOTER_FEED_MOTOR_CAN 8            //SRX

@@ -103,10 +103,10 @@ double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
         bot_kD = newD;
         shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
     }
-    if (newShooterSpeedVelocity != shooterSpeedBottomVelocity)
-    {
-        shooterSpeedBottomVelocity = newShooterSpeedVelocity;
-    }
+    // if (newShooterSpeedVelocity != shooterSpeedBottomVelocity)
+    // {
+    //     shooterSpeedBottomVelocity = newShooterSpeedVelocity;
+    // }
 
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
     shooterMotorBottom.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
@@ -150,10 +150,10 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
         top_kD = newD;
         shooterMotorTop.Config_kD(0, top_kD, kTimeoutMs);
     }
-    if (newShooterSpeedVelocity != shooterSpeedTopVelocity)
-    {
-        shooterSpeedTopVelocity = newShooterSpeedVelocity;
-    }
+    // if (newShooterSpeedVelocity != shooterSpeedTopVelocity)
+    // {
+    //     shooterSpeedTopVelocity = newShooterSpeedVelocity;
+    // }
 
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
     shooterMotorTop.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
