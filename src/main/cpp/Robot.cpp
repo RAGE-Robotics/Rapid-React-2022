@@ -140,7 +140,7 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Operator ball intake
-    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON))
+    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_OP))
     {
         base.IntakeMotor(true);
     }
@@ -159,6 +159,16 @@ void Robot::TeleopPeriodic()
     {
         deployIntakeSolenoid.Set(false);
         retractIntakeSolenoid.Set(true);
+    }
+    ///////////////////////////////////////////////////////
+    // Base intake control
+    if (driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_B))
+    {
+        base.IntakeMotor(true);
+    }
+    else
+    {
+        base.IntakeMotor(false);
     }
 
     ///////////////////////////////////////////////////////
