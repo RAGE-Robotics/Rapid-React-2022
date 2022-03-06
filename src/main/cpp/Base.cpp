@@ -2,8 +2,8 @@
 
 void Base::TankDrive(double leftSpeed, double rightSpeed)
 {
-    leftFrontMotor.Set(ControlMode::PercentOutput, leftSpeed);
-    leftRearMotor.Set(ControlMode::PercentOutput, leftSpeed);
+    leftFrontMotor.Set(ControlMode::PercentOutput, -leftSpeed);
+    leftRearMotor.Set(ControlMode::PercentOutput, -leftSpeed);
 
     rightFrontMotor.Set(ControlMode::PercentOutput, rightSpeed);
     rightRearMotor.Set(ControlMode::PercentOutput, rightSpeed);
@@ -13,7 +13,7 @@ void Base::IntakeMotor(bool isOn)
 {
     if (isOn)
     {
-        intakeMotor.Set(ControlMode::PercentOutput, INTAKE_ROLLER_MOTOR_SPEED);
+        intakeMotor.Set(ControlMode::PercentOutput, -INTAKE_ROLLER_MOTOR_SPEED);
     }
     else
     {

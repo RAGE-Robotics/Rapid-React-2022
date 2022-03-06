@@ -22,6 +22,9 @@ public:
     void ShutDownShooterMotors(void);
     void Shoot(void);
     bool IsBallBlockingLowerSensor(void);
+    void IncreaseShooterAngle(void);
+    void DecreaseShooterAngle(void);
+    void AimShooterTowardsTargetAngle();
 
     int kTimeoutMs {0};
     int ballCount {0};
@@ -36,6 +39,9 @@ public:
     double bot_kI {0.};
     double bot_kD {0.};
 
+    double targetShooterAngle {0.};
+    double currentShooterAngle {0.};
+
     int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY;
     int shooterSpeedBottomVelocity = SHOOTER_SPEED_BOTTOM_VELOCITY;
 
@@ -46,7 +52,8 @@ public:
 
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeRollerMotor{INTAKE_ROLLER_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterFeedMotor{SHOOTER_FEED_MOTOR_CAN};
-    ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{INTAKE_ROLLER_MOTOR_CAN};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{SHOOTER_FEED_MOTOR_CAN};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX angleMotor{SHOOTER_ANGLE_MOTOR_CAN};
 
     frc::DigitalInput ballInSensor{BALL_IN_SENSOR_DIO};
     frc::DigitalInput ballShotSensor{BALL_SHOT_SENSOR_DIO};

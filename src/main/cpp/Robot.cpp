@@ -1,18 +1,18 @@
 #include "Robot.h"
 #include <fmt/core.h>
-#include <frc/smartdashboard/SmartDashboard.h>
+//#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit()
 {
     m_chooser.SetDefaultOption("Do nothing", "donothing");
     m_chooser.AddOption("Forwards then back", "forwardback");
-    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-    m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
-    m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
-    m_limelightLEDChooser.AddOption("LEDs On", "ledson");
-    m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
-    frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
+    // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
+    // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
+    // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
+    // m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
+    // frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
 
     leds.displayTeamColor();
 }
@@ -106,16 +106,16 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Driver shifters
-    if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
-    {
-        gearDownSolenoid.Set(false);
-        gearUpSolenoid.Set(true);
-    }
-    if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
-    {
-        gearUpSolenoid.Set(false);
-        gearDownSolenoid.Set(true);
-    }
+    // if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
+    // {
+    //     gearDownSolenoid.Set(false);
+    //     gearUpSolenoid.Set(true);
+    // }
+    // if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
+    // {
+    //     gearUpSolenoid.Set(false);
+    //     gearDownSolenoid.Set(true);
+    // }
 
     ///////////////////////////////////////////////////////
     // Operator shooting motors
@@ -139,6 +139,17 @@ void Robot::TeleopPeriodic()
     }
 
     ///////////////////////////////////////////////////////
+    // Operator change shooter angle
+    if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_INCREASE_BUTTON))
+    {
+        shooter.IncreaseShooterAngle();
+    }
+    if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
+    {
+        shooter.DecreaseShooterAngle();
+    }
+
+    ///////////////////////////////////////////////////////
     // Operator ball intake
     if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_OP))
     {
@@ -149,40 +160,37 @@ void Robot::TeleopPeriodic()
         base.IntakeMotor(false);
     }
 
-    if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
-    {
-        retractIntakeSolenoid.Set(false);
-        deployIntakeSolenoid.Set(true);
-    }
+    // if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
+    // {
+    //     retractIntakeSolenoid.Set(false);
+    //     deployIntakeSolenoid.Set(true);
+    // }
 
-    if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
-    {
-        deployIntakeSolenoid.Set(false);
-        retractIntakeSolenoid.Set(true);
-    }
+    // if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
+    // {
+    //     deployIntakeSolenoid.Set(false);
+    //     retractIntakeSolenoid.Set(true);
+    // }
     ///////////////////////////////////////////////////////
     // Base intake control
-    if (driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_B))
-    {
-        base.IntakeMotor(true);
-    }
-    else
-    {
-        base.IntakeMotor(false);
-    }
+    // if (driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_B))
+    // {
+    //     base.IntakeMotor(true);
+    // }
+    // else
+    // {
+    //     base.IntakeMotor(false);
+    // }
 
     ///////////////////////////////////////////////////////
     // Operator conveyor control
-    if (operatorLeftStick.GetRawButton(CONVEYOR_ON_BUTTON))
+    if (operatorLeftStick.GetRawButton(CONVEYOR_FORWARD_BUTTON))
     {
-        if (operatorLeftStick.GetRawButton(CONVEYOR_DIRECTION_BUTTON))
-        {
-            base.ConveyorMotor(true, BACKWARD);
-        }
-        else
-        {
-            base.ConveyorMotor(true, FORWARD);
-        }
+        base.ConveyorMotor(true, FORWARD);
+    }
+    else if (operatorLeftStick.GetRawButton(CONVEYOR_BACKWARD_BUTTON))
+    {
+        base.ConveyorMotor(true, BACKWARD);
     }
     else
     {
@@ -198,22 +206,22 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Camera operation
-    if (m_limelightLEDModeSelected == "default")
-    {
-        limelightCamera.setLEDsToDefault();
-    }
-    else if (m_limelightLEDModeSelected == "ledsoff")
-    {
-        limelightCamera.turnOffLEDs();
-    }
-    else if (m_limelightLEDModeSelected == "ledson")
-    {
-        limelightCamera.turnOnLEDs();
-    }
-    else if (m_limelightLEDModeSelected == "ledsblinking")
-    {
-        limelightCamera.blinkLEDs();
-    }
+    // if (m_limelightLEDModeSelected == "default")
+    // {
+    //     limelightCamera.setLEDsToDefault();
+    // }
+    // else if (m_limelightLEDModeSelected == "ledsoff")
+    // {
+    //     limelightCamera.turnOffLEDs();
+    // }
+    // else if (m_limelightLEDModeSelected == "ledson")
+    // {
+    //     limelightCamera.turnOnLEDs();
+    // }
+    // else if (m_limelightLEDModeSelected == "ledsblinking")
+    // {
+    //     limelightCamera.blinkLEDs();
+    // }
 
     // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
     // {
