@@ -8,6 +8,8 @@ void Robot::RobotInit()
     m_chooser.AddOption("Forwards then back", "forwardback");
     // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+    compressor.EnableAnalog((units::pounds_per_square_inch_t) 0, (units::pounds_per_square_inch_t) 120);
+
     // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
     // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
     // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
@@ -128,8 +130,8 @@ void Robot::TeleopPeriodic()
         shooter.ShutDownShooterMotors();
     }
     
-    shooter.GetShooterSpeedTopRPM();
-    shooter.GetShooterSpeedBottomRPM();
+    // shooter.GetShooterSpeedTopRPM();
+    // shooter.GetShooterSpeedBottomRPM();
     
     ///////////////////////////////////////////////////////
     // Operator shoot the ball
@@ -142,11 +144,11 @@ void Robot::TeleopPeriodic()
     // Operator change shooter angle
     if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_INCREASE_BUTTON))
     {
-        shooter.IncreaseShooterAngle();
+        //shooter.IncreaseShooterAngle();
     }
     if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
     {
-        shooter.DecreaseShooterAngle();
+        //shooter.DecreaseShooterAngle();
     }
 
     ///////////////////////////////////////////////////////

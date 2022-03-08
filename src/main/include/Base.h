@@ -23,8 +23,11 @@ private:
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeMotor{INTAKE_ROLLER_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{SHOOTER_FEED_MOTOR_CAN};
 
-    //frc::Solenoid shifter{frc::PneumaticsModuleType::CTREPCM, 0};
-    //frc::DoubleSolenoid shifter{GEAR_SHIFT_DOUBLE_SOLENOID, frc::PneumaticsModuleType::CTREPCM, };
+    // frc::Solenoid downShifter{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOWN_SOLENOID};
+    // frc::Solenoid upShifter{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_UP_SOLENOID};
+
+
+    //frc::DoubleSolenoid shifter{GEAR_SHIFT_DOWN_SOLENOID, frc::PneumaticsModuleType::CTREPCM, };
 };
 
 

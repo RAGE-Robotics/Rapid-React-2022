@@ -49,6 +49,8 @@ private:
     Base base;
     Shooter shooter; 
     Camera limelightCamera;
+    
+    frc::Compressor compressor{1, frc::PneumaticsModuleType::REVPH};
 
     // frc::Solenoid gearUpSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_UP_SOLENOID};
     // frc::Solenoid gearDownSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOWN_SOLENOID};

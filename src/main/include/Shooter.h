@@ -22,9 +22,9 @@ public:
     void ShutDownShooterMotors(void);
     void Shoot(void);
     bool IsBallBlockingLowerSensor(void);
-    void IncreaseShooterAngle(void);
-    void DecreaseShooterAngle(void);
-    void AimShooterTowardsTargetAngle();
+    void IncreaseTargetAngle(void);
+    void DecreaseTargetAngle(void);
+    void AimShooter(double radians);
 
     int kTimeoutMs {0};
     int ballCount {0};
