@@ -165,8 +165,9 @@ void Robot::TeleopPeriodic()
         shooter.ShutDownShooterMotors();
     }
     
-    // shooter.GetShooterSpeedTopRPM();
-    // shooter.GetShooterSpeedBottomRPM();
+    // Update Smart Dashboard when used
+    shooter.GetShooterSpeedTopRPM();
+    shooter.GetShooterSpeedBottomRPM();
     
     ///////////////////////////////////////////////////////
     // Operator shoot the ball

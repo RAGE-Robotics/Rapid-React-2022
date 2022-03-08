@@ -9,6 +9,7 @@
 #include "Base.h"
 #include "Camera.h"
 #include "Shooter.h"
+#include "Climber.h"
 #include "Auto.h"
 
 class Robot : public frc::TimedRobot
@@ -50,6 +51,7 @@ private:
 
     LEDs leds;
     Base base;
-    Shooter shooter; 
+    Shooter shooter;
+    Climber climber;
     Camera limelightCamera;
 };
