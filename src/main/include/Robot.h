@@ -49,6 +49,8 @@ private:
     const units::pounds_per_square_inch_t kCompressorMinPressure {20};
     const units::pounds_per_square_inch_t kCompressorMaxPressure {120};
 
+    bool shooterHoming {false};
+    
     LEDs leds;
     Base base;
     Shooter shooter;

@@ -49,6 +49,8 @@ void Robot::AutonomousInit()
 
     autoController.start();
 
+    shooterHoming = true;
+
     if (m_autoSelected == "forwardback")
     {
         autoController.setActions(k_forwardBack); // k_forwardBack is defined in Auto.h
@@ -62,6 +64,20 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
     leds.displayRainbow();
+
+    // Home the shooter angle mechanism
+    if (shooterHoming)
+    {
+        if (!shooter.AngleMotorAtHome())
+        {
+            shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
+        }
+        else
+        {
+            shooterHoming = false;
+            shooter.MoveAngleMotor(0);
+        }
+    }
 
     if (m_autoSelected == kAutoNameCustom)
     {
@@ -180,11 +196,17 @@ void Robot::TeleopPeriodic()
     // Operator change shooter angle
     if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_INCREASE_BUTTON))
     {
+        shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, FORWARD);
         //shooter.IncreaseShooterAngle();
     }
-    if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
+    else if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
     {
+        shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, BACKWARD);
         //shooter.DecreaseShooterAngle();
+    }
+    else
+    {
+        shooter.MoveAngleMotor(0);
     }
 
     ///////////////////////////////////////////////////////

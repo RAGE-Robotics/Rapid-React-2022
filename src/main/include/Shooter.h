@@ -7,24 +7,30 @@ class Shooter
 {
 public:
     Shooter();
-    void SetShooterSpeedTopVelocityRPM(double speed); // Using velocity speed feedback
-    void SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
     void SetShooterSpeedTopVoltage(double voltage);
     void SetShooterSpeedBottomVoltage(double voltage);
+    void SetShooterSpeedTopVelocityRPM(double speed); // Using velocity speed feedback
+    void SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
     double GetShooterSpeedTopRPM();
     double GetShooterSpeedBottomRPM();
-    void SetShooterAngle(double angle);
-    double GetShooterAngle(void);
-    void SetIntakeRollerSpeed(double rollerSpeed);
-    void SetConveyorIntakeMotorSpeed(double motorSpeed);
-    void SetShooterFeedMotorSpeed(double feedmotorspeed);
+
     void SpinUpShooterMotors(void);
     void ShutDownShooterMotors(void);
     void Shoot(void);
-    bool IsBallBlockingLowerSensor(void);
+
+    void MoveAngleMotor(double speed, int direction = 0);
+    bool AngleMotorAtHome(void);
     void IncreaseTargetAngle(void);
     void DecreaseTargetAngle(void);
     void AimShooter(double radians);
+    void SetShooterAngle(double angle);
+    double GetShooterAngle(void);
+
+    void SetIntakeRollerSpeed(double rollerSpeed);
+    void SetShooterFeedMotorSpeed(double feedmotorspeed);
+    void SetConveyorIntakeMotorSpeed(double motorSpeed);
+
+    bool IsBallBlockingLowerSensor(void);
 
 private:
     int kTimeoutMs {0};
@@ -58,7 +64,6 @@ private:
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX angleMotor{SHOOTER_ANGLE_MOTOR_CAN};
 #endif
 
-    frc::DigitalInput ballInSensor{BALL_IN_SENSOR_DIO};
-    frc::DigitalInput ballShotSensor{BALL_SHOT_SENSOR_DIO};
+    frc::DigitalInput angleAtHome{SHOOTER_ANGLE_ZERO_SWITCH_DIO};
     frc::Timer rollerIntakeDelay;
 };

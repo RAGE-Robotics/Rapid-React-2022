@@ -22,11 +22,8 @@
 #define ENABLE_DRIVE_SYSTEM
 #define ENABLE_INTAKE_SYSTEM
 #define ENABLE_SHOOTER_SYSTEM
-#define ENABLE_CLIMBER_SYSTEM
+//#define ENABLE_CLIMBER_SYSTEM
 //#define ENABLE_SMARTDASH_PID
-
-//Test mode enter true = 1
-#define TEST_MODE 0
 
 //Joysticks and buttons
 ////////////////////////////////////
@@ -53,29 +50,27 @@
 #define SHOOTER_ANGLE_INCREASE_BUTTON 4
 #define SHOOTER_ANGLE_DECREASE_BUTTON 5
 
-#define TEST_JOYSTICK_USB 0
-
 ////////////////////////////////////
 //List CAN Devices
 #ifdef PARADE_ROBOT
-    #define LEFT_FRONT_DRIVE_MOTOR_CAN 1    //SRX
-    #define LEFT_REAR_DRIVE_MOTOR_CAN 2     //SRX
-    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 3   //SRX
-    #define RIGHT_REAR_DRIVE_MOTOR_CAN 4    //SRX
+    #define LEFT_FRONT_DRIVE_MOTOR_CAN 1    // SRX
+    #define LEFT_REAR_DRIVE_MOTOR_CAN 2     // SRX
+    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 3   // SRX
+    #define RIGHT_REAR_DRIVE_MOTOR_CAN 4    // SRX
 #else
-    #define LEFT_FRONT_DRIVE_MOTOR_CAN 7    //SRX
-    #define LEFT_REAR_DRIVE_MOTOR_CAN 11    //SRX
-    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 9   //SRX
-    #define RIGHT_REAR_DRIVE_MOTOR_CAN 6    //SRX
+    #define LEFT_FRONT_DRIVE_MOTOR_CAN 7    // SRX CIM
+    #define LEFT_REAR_DRIVE_MOTOR_CAN 11    // SRX CIM
+    #define RIGHT_FRONT_DRIVE_MOTOR_CAN 9   // SRX CIM
+    #define RIGHT_REAR_DRIVE_MOTOR_CAN 6    // SRX CIM
 #endif
 
-#define INTAKE_ROLLER_MOTOR_CAN 10          //SRX
-#define CONVEYOR_MOTOR_CAN 8                //SRX
-#define SHOOTER_MOTOR_TOP_CAN 3
-#define SHOOTER_MOTOR_BOTTOM_CAN 1
-#define SHOOTER_ANGLE_MOTOR_CAN 12
-#define CLIMBER_MOTOR_1_CAN 13
-#define CLIMBER_MOTOR_2_CAN 14
+#define INTAKE_ROLLER_MOTOR_CAN 10          // SRX Bag
+#define CONVEYOR_MOTOR_CAN 8                // SRX Bag
+#define SHOOTER_MOTOR_TOP_CAN 3             // FX  Falcon 500
+#define SHOOTER_MOTOR_BOTTOM_CAN 1          // FX  Falcon 500
+#define SHOOTER_ANGLE_MOTOR_CAN 12          // SRX Bag
+#define CLIMBER_MOTOR_1_CAN 13              // SRX CIM
+#define CLIMBER_MOTOR_2_CAN 14              // SRX CIM
 
 // PCM bits
 #define GEAR_SHIFT_UP_SOLENOID 0
@@ -90,11 +85,8 @@
 #define SHOOTER_ANGLE_ZERO_SWITCH_DIO 0
 #define PISTON_ONE_EXTENDED_SENSOR_A_DIO 1
 #define PISTON_ONE_EXTENDED_SENSOR_B_DIO 2
-#define BALL_SHOT_SENSOR_DIO 3
-#define BALL_IN_SENSOR_DIO 4
 
 // Adjustable constants
-
 #define FORWARD +1
 #define BACKWARD -1
 #define ON true
@@ -107,6 +99,8 @@
 
 #define INTAKE_ROLLER_MOTOR_SPEED 0.75
 #define CONVEYOR_MOTOR_SPEED 0.5
+#define SHOOTER_ANGLE_HOME_SPEED 0.1
+#define SHOOTER_ANGLE_MOTOR_SPEED 0.3
 #define SHOOTER_FEED_MOTOR_SPEED -1.0
 #define SHOOTER_SPEED_TOP_VELOCITY 5000         // RPM
 #define SHOOTER_SPEED_BOTTOM_VELOCITY 5000      // RPM

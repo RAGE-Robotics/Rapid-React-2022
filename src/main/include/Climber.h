@@ -7,7 +7,7 @@ class Climber
 {
 public:
     Climber(){};
-    void RotateClimber(double speed);
+    void RotateClimber(double speed, int direction = 0);
 
 private:
 #ifdef ENABLE_CLIMBER_SYSTEM
