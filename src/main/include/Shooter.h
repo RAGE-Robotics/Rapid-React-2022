@@ -51,8 +51,8 @@ public:
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorBottom{SHOOTER_MOTOR_BOTTOM_CAN};
 
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeRollerMotor{INTAKE_ROLLER_MOTOR_CAN};
-    ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterFeedMotor{SHOOTER_FEED_MOTOR_CAN};
-    ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{SHOOTER_FEED_MOTOR_CAN};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterFeedMotor{CONVEYOR_MOTOR_CAN};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{CONVEYOR_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX angleMotor{SHOOTER_ANGLE_MOTOR_CAN};
 
     frc::DigitalInput ballInSensor{BALL_IN_SENSOR_DIO};

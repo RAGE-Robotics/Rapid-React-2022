@@ -2,11 +2,11 @@
 
 void Base::TankDrive(double leftSpeed, double rightSpeed)
 {
-    leftFrontMotor.Set(ControlMode::PercentOutput, -leftSpeed);
-    leftRearMotor.Set(ControlMode::PercentOutput, -leftSpeed);
+    leftFrontMotor.Set(ControlMode::PercentOutput, -leftSpeed * LEFT_DRIVE_MOTOR_SCALER);
+    leftRearMotor.Set(ControlMode::PercentOutput, -leftSpeed * LEFT_DRIVE_MOTOR_SCALER);
 
-    rightFrontMotor.Set(ControlMode::PercentOutput, rightSpeed);
-    rightRearMotor.Set(ControlMode::PercentOutput, rightSpeed);
+    rightFrontMotor.Set(ControlMode::PercentOutput, rightSpeed * RIGHT_DRIVE_MOTOR_SCALER);
+    rightRearMotor.Set(ControlMode::PercentOutput, rightSpeed * RIGHT_DRIVE_MOTOR_SCALER);
 }
 
 void Base::IntakeMotor(bool isOn)
@@ -25,7 +25,7 @@ void Base::ConveyorMotor(bool isOn, int direction)
 {
     if (isOn)
     {
-        conveyorMotor.Set(ControlMode::PercentOutput, LOWER_CONVEYOR_MOTOR_SPEED * direction);
+        conveyorMotor.Set(ControlMode::PercentOutput, CONVEYOR_MOTOR_SPEED * direction);
     }
     else
     {
