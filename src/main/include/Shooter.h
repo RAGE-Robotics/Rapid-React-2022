@@ -7,13 +7,13 @@ class Shooter
 {
 public:
     Shooter();
-    double SetShooterSpeedTopVelocityRPM(double speed); // Using velocity speed feedback
-    double SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
-    double SetShooterSpeedTopVoltage(double voltage);
-    double SetShooterSpeedBottomVoltage(double voltage);
+    void SetShooterSpeedTopVelocityRPM(double speed); // Using velocity speed feedback
+    void SetShooterSpeedBottomVelocityRPM(double speed); // Using velocity speed feedback
+    void SetShooterSpeedTopVoltage(double voltage);
+    void SetShooterSpeedBottomVoltage(double voltage);
     double GetShooterSpeedTopRPM();
     double GetShooterSpeedBottomRPM();
-    double SetShooterAngle(double angle);
+    void SetShooterAngle(double angle);
     double GetShooterAngle(void);
     void SetIntakeRollerSpeed(double rollerSpeed);
     void SetConveyorIntakeMotorSpeed(double motorSpeed);
@@ -26,6 +26,7 @@ public:
     void DecreaseTargetAngle(void);
     void AimShooter(double radians);
 
+private:
     int kTimeoutMs {0};
     int ballCount {0};
 
@@ -47,6 +48,7 @@ public:
 
     bool shooterIsControllingIntakeConveyor; // Allow shooter to override the intake button
 
+#ifdef ENABLE_SHOOTER_SYSTEM
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorTop{SHOOTER_MOTOR_TOP_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorBottom{SHOOTER_MOTOR_BOTTOM_CAN};
 
@@ -54,6 +56,7 @@ public:
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX shooterFeedMotor{CONVEYOR_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{CONVEYOR_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX angleMotor{SHOOTER_ANGLE_MOTOR_CAN};
+#endif
 
     frc::DigitalInput ballInSensor{BALL_IN_SENSOR_DIO};
     frc::DigitalInput ballShotSensor{BALL_SHOT_SENSOR_DIO};

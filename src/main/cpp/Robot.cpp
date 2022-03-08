@@ -1,14 +1,14 @@
 #include "Robot.h"
 #include <fmt/core.h>
-//#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 void Robot::RobotInit()
 {
     m_chooser.SetDefaultOption("Do nothing", "donothing");
     m_chooser.AddOption("Forwards then back", "forwardback");
-    // frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-    compressor.EnableAnalog((units::pounds_per_square_inch_t) 0, (units::pounds_per_square_inch_t) 120);
+    compressor.EnableAnalog(kCompressorMinPressure, kCompressorMaxPressure);
 
     // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
     // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
@@ -24,7 +24,7 @@ void Robot::RobotInit()
  * this for items like diagnostics that you want ran during disabled,
  * autonomous, teleoperated and test.
  *
- * <p> This runs after the mode specific periodic functions, but before
+ * This runs after the mode-specific periodic functions, but before
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {}
@@ -108,16 +108,51 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Driver shifters
-    // if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
-    // {
-    //     gearDownSolenoid.Set(false);
-    //     gearUpSolenoid.Set(true);
-    // }
-    // if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
-    // {
-    //     gearUpSolenoid.Set(false);
-    //     gearDownSolenoid.Set(true);
-    // }
+    if (driverLeftStick.GetRawButton(HIGH_GEAR_BUTTON))
+    {
+        base.SetGear(HIGH_GEAR);
+    }
+    if (driverRightStick.GetRawButton(LOW_GEAR_BUTTON))
+    {
+        base.SetGear(LOW_GEAR);
+    }
+
+    ///////////////////////////////////////////////////////
+    // Operator/Driver ball intake
+    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_OP) ||
+        driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_DRIVER))
+    {
+        base.IntakeMotor(ON);
+    }
+    else
+    {
+        base.IntakeMotor(OFF);
+    }
+
+    if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
+    {
+        base.DeployIntake();
+    }
+
+    if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
+    {
+        base.RetractIntake();
+    }
+
+    ///////////////////////////////////////////////////////
+    // Operator conveyor control
+    if (operatorLeftStick.GetRawButton(CONVEYOR_FORWARD_BUTTON))
+    {
+        base.ConveyorMotor(ON, FORWARD);
+    }
+    else if (operatorLeftStick.GetRawButton(CONVEYOR_BACKWARD_BUTTON))
+    {
+        base.ConveyorMotor(ON, BACKWARD);
+    }
+    else
+    {
+        base.ConveyorMotor(OFF);
+    }
 
     ///////////////////////////////////////////////////////
     // Operator shooting motors
@@ -149,54 +184,6 @@ void Robot::TeleopPeriodic()
     if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
     {
         //shooter.DecreaseShooterAngle();
-    }
-
-    ///////////////////////////////////////////////////////
-    // Operator ball intake
-    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_OP))
-    {
-        base.IntakeMotor(true);
-    }
-    else
-    {
-        base.IntakeMotor(false);
-    }
-
-    // if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
-    // {
-    //     retractIntakeSolenoid.Set(false);
-    //     deployIntakeSolenoid.Set(true);
-    // }
-
-    // if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
-    // {
-    //     deployIntakeSolenoid.Set(false);
-    //     retractIntakeSolenoid.Set(true);
-    // }
-    ///////////////////////////////////////////////////////
-    // Base intake control
-    // if (driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_B))
-    // {
-    //     base.IntakeMotor(true);
-    // }
-    // else
-    // {
-    //     base.IntakeMotor(false);
-    // }
-
-    ///////////////////////////////////////////////////////
-    // Operator conveyor control
-    if (operatorLeftStick.GetRawButton(CONVEYOR_FORWARD_BUTTON))
-    {
-        base.ConveyorMotor(true, FORWARD);
-    }
-    else if (operatorLeftStick.GetRawButton(CONVEYOR_BACKWARD_BUTTON))
-    {
-        base.ConveyorMotor(true, BACKWARD);
-    }
-    else
-    {
-        base.ConveyorMotor(false, 0);
     }
 
     ///////////////////////////////////////////////////////

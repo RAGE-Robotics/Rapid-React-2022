@@ -37,7 +37,6 @@ private:
     frc::SendableChooser<std::string> m_limelightLEDChooser;
     std::string m_limelightLEDModeSelected;
 
-    frc::Joystick m_testStick{TEST_JOYSTICK_USB};
     frc::Joystick driverLeftStick{LEFT_DRIVER_JOYSTICK_USB};
     frc::Joystick driverRightStick{RIGHT_DRIVER_JOYSTICK_USB};
     frc::Joystick operatorLeftStick{LEFT_OPERATOR_JOYSTICK_USB};
@@ -45,16 +44,12 @@ private:
 
     AutoController autoController;
 
+    frc::Compressor compressor{frc::PneumaticsModuleType::REVPH};
+    const units::pounds_per_square_inch_t kCompressorMinPressure {20};
+    const units::pounds_per_square_inch_t kCompressorMaxPressure {120};
+
     LEDs leds;
     Base base;
     Shooter shooter; 
     Camera limelightCamera;
-    
-    frc::Compressor compressor{1, frc::PneumaticsModuleType::REVPH};
-
-    // frc::Solenoid gearUpSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_UP_SOLENOID};
-    // frc::Solenoid gearDownSolenoid{frc::PneumaticsModuleType::CTREPCM, GEAR_SHIFT_DOWN_SOLENOID};
-    // frc::Solenoid ballGateSolenoid{frc::PneumaticsModuleType::CTREPCM, BALL_GATE_SOLENOID};
-    // frc::Solenoid deployIntakeSolenoid{frc::PneumaticsModuleType::CTREPCM, DEPLOY_INTAKE_SOLENOID};
-    // frc::Solenoid retractIntakeSolenoid{frc::PneumaticsModuleType::CTREPCM, RETRACT_INTAKE_SOLENOID};
 };

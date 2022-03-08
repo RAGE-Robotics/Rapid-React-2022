@@ -1,8 +1,9 @@
 #include "Shooter.h"
-//#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 Shooter::Shooter()
 {
+#ifdef ENABLE_SHOOTER_SYSTEM
     shooterMotorTop.ConfigFactoryDefault();
     shooterMotorTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorTop.SetSensorPhase(true);
@@ -14,6 +15,7 @@ Shooter::Shooter()
     shooterMotorBottom.SetSensorPhase(true);
 
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
+#endif
 
     kTimeoutMs = 0;
 
@@ -27,17 +29,20 @@ Shooter::Shooter()
     bot_kI = 0.00008; // 0.0001
     bot_kD = 0.01;
 
-    // frc::SmartDashboard::PutNumber("Top kF", top_kF);
-    // frc::SmartDashboard::PutNumber("Top kP", top_kP);
-    // frc::SmartDashboard::PutNumber("Top kI", top_kI);
-    // frc::SmartDashboard::PutNumber("Top kD", top_kD);
+#ifdef ENABLE_SMARTDASH_PID
+    frc::SmartDashboard::PutNumber("Top kF", top_kF);
+    frc::SmartDashboard::PutNumber("Top kP", top_kP);
+    frc::SmartDashboard::PutNumber("Top kI", top_kI);
+    frc::SmartDashboard::PutNumber("Top kD", top_kD);
 
-    // frc::SmartDashboard::PutNumber("Bot kF", bot_kF);
-    // frc::SmartDashboard::PutNumber("Bot kP", bot_kP);
-    // frc::SmartDashboard::PutNumber("Bot kI", bot_kI);
-    // frc::SmartDashboard::PutNumber("Bot kD", bot_kD);
+    frc::SmartDashboard::PutNumber("Bot kF", bot_kF);
+    frc::SmartDashboard::PutNumber("Bot kP", bot_kP);
+    frc::SmartDashboard::PutNumber("Bot kI", bot_kI);
+    frc::SmartDashboard::PutNumber("Bot kD", bot_kD);
+#endif
 
-    // for velocity feedback
+#ifdef ENABLE_SHOOTER_SYSTEM
+    // For velocity feedback
     shooterMotorTop.Config_kF(0, top_kF, kTimeoutMs);
     shooterMotorTop.Config_kP(0, top_kP, kTimeoutMs); // Accelerates at .5 try 0.1
     shooterMotorTop.Config_kI(0, top_kI, kTimeoutMs);
@@ -47,34 +52,32 @@ Shooter::Shooter()
     shooterMotorBottom.Config_kP(0, bot_kP, kTimeoutMs); // Accelerates at .5 try 0.1
     shooterMotorBottom.Config_kI(0, bot_kI, kTimeoutMs);
     shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
+#endif
 
-    // RaiseShooterHood(true); // Hood ready in raised positoin
     //  shooterLeadScrewMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 30);
 }
 
-double Shooter::SetShooterSpeedTopVoltage(double voltage)
+void Shooter::SetShooterSpeedTopVoltage(double voltage)
 {
-    //ctre::phoenix::motorcontrol::can::WPI_TalonFX
+#ifdef ENABLE_SHOOTER_SYSTEM
     shooterMotorTop.Set(ControlMode::PercentOutput, voltage);
-
-    return 0;
+#endif
 }
-double Shooter::SetShooterSpeedBottomVoltage(double voltage)
+void Shooter::SetShooterSpeedBottomVoltage(double voltage)
 {
-    //ctre::phoenix::motorcontrol::can::WPI_TalonFX
+#ifdef ENABLE_SHOOTER_SYSTEM
     shooterMotorBottom.Set(ControlMode::PercentOutput, voltage);
-
-    return 0;
+#endif
 }
 
-double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
+void Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
 {
     if (speed == 0.0)
     {
         SetShooterSpeedBottomVoltage(0.0);
-        return 0;
     }
-#if 0
+
+#ifdef ENABLE_SMARTDASH_PID
     double newF = frc::SmartDashboard::GetNumber("Bot kF", 0);
     double newP = frc::SmartDashboard::GetNumber("Bot kP", 0);
     double newI = frc::SmartDashboard::GetNumber("Bot kI", 0);
@@ -104,27 +107,27 @@ double Shooter::SetShooterSpeedBottomVelocityRPM(double speed)
         bot_kD = newD;
         shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
     }
-    // if (newShooterSpeedVelocity != shooterSpeedBottomVelocity)
-    // {
-    //     shooterSpeedBottomVelocity = newShooterSpeedVelocity;
-    // }
+    if (newShooterSpeedVelocity != shooterSpeedBottomVelocity)
+    {
+        shooterSpeedBottomVelocity = newShooterSpeedVelocity;
+    }
 #endif
+#ifdef ENABLE_SHOOTER_SYSTEM
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
     shooterMotorBottom.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
-
-    return 0;
+#endif
 }
 
-double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
+void Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 {
     speed = -speed;
 
     if (speed == 0.0)
     {
         SetShooterSpeedTopVoltage(0.0);
-        return 0;
     }
-#if 0
+
+#ifdef ENABLE_SMARTDASH_PID
     double newF = frc::SmartDashboard::GetNumber("Top kF", 0);
     double newP = frc::SmartDashboard::GetNumber("Top kP", 0);
     double newI = frc::SmartDashboard::GetNumber("Top kI", 0);
@@ -154,43 +157,46 @@ double Shooter::SetShooterSpeedTopVelocityRPM(double speed)
         top_kD = newD;
         // shooterMotorTop.Config_kD(0, top_kD, kTimeoutMs);
     }
-    // if (newShooterSpeedVelocity != shooterSpeedTopVelocity)
-    // {
-    //     shooterSpeedTopVelocity = newShooterSpeedVelocity;
-    // }
+    if (newShooterSpeedVelocity != shooterSpeedTopVelocity)
+    {
+        shooterSpeedTopVelocity = newShooterSpeedVelocity;
+    }
 #endif
-
+#ifdef ENABLE_SHOOTER_SYSTEM
     double speedRawUnitsPer100Ms = speed * CONVERT_RPM_TO_VELOCITY_TICKS;
     shooterMotorTop.Set(ControlMode::Velocity, speedRawUnitsPer100Ms);
-
-    return 0;
+#endif
 }
 
-// double Shooter::GetShooterSpeedTopRPM()
-// {
-//     // int rawSensorVelocityTop = shooterMotorTop.GetSelectedSensorVelocity(0);
+double Shooter::GetShooterSpeedTopRPM()
+{
+#ifdef ENABLE_SHOOTER_SYSTEM
+    int rawSensorVelocityTop = shooterMotorTop.GetSelectedSensorVelocity(0);
+    double shooterVelocityTopRPM = double(rawSensorVelocityTop) * CONVERT_VELOCITY_TICKS_TO_RPM;
 
-//     // frc::SmartDashboard::PutNumber("shooterVelocityTopRAW: ", rawSensorVelocityTop);
+    frc::SmartDashboard::PutNumber("shooterVelocityTopRAW: ", rawSensorVelocityTop);
+    frc::SmartDashboard::PutNumber("shooterVelocityTopRPM: ", shooterVelocityTopRPM);
 
-//     // double shooterVelocityTopRPM = double(rawSensorVelocityTop) * CONVERT_VELOCITY_TICKS_TO_RPM;
+    return shooterVelocityTopRPM;
+#else
+    return 0.;
+#endif
+}
 
-//     // frc::SmartDashboard::PutNumber("shooterVelocityTopRPM: ", shooterVelocityTopRPM);
+double Shooter::GetShooterSpeedBottomRPM()
+{
+#ifdef ENABLE_SHOOTER_SYSTEM
+    int rawSensorVelocityBottom = shooterMotorBottom.GetSelectedSensorVelocity(0);
+    double shooterVelocityBottomRPM = double(rawSensorVelocityBottom) * CONVERT_VELOCITY_TICKS_TO_RPM;
 
-//     return shooterVelocityTopRPM;
-// }
+    frc::SmartDashboard::PutNumber("shooterVelocityBottomRAW: ", rawSensorVelocityBottom);
+    frc::SmartDashboard::PutNumber("shooterVelocityBottomRPM: ", shooterVelocityBottomRPM);
 
-// double Shooter::GetShooterSpeedBottomRPM()
-// {
-//     // int rawSensorVelocityBottom = shooterMotorBottom.GetSelectedSensorVelocity(0);
-
-//     // frc::SmartDashboard::PutNumber("shooterVelocityBottomRAW: ", rawSensorVelocityBottom);
-
-//     // double shooterVelocityBottomRPM = double(rawSensorVelocityBottom) * CONVERT_VELOCITY_TICKS_TO_RPM;
-
-//     // frc::SmartDashboard::PutNumber("shooterVelocityBottomRPM: ", shooterVelocityBottomRPM);
-
-//     return shooterVelocityBottomRPM;
-// }
+    return shooterVelocityBottomRPM;
+#else
+    return 0.;
+#endif
+}
 
 void Shooter::SpinUpShooterMotors(void)
 {
@@ -237,40 +243,45 @@ void Shooter::DecreaseTargetAngle(void)
 
 void Shooter::AimShooter(double radians)
 {
-
+#ifdef ENABLE_SHOOTER_SYSTEM
     double rotations = (currentShooterAngle - targetShooterAngle) * ANGLE_TO_ROTATIONS;
     angleMotor.Set(ControlMode::Position, rotations);
     currentShooterAngle = targetShooterAngle;
+#endif
 }
-
 
 double Shooter::GetShooterAngle(void)
 {
+#ifdef ENABLE_SHOOTER_SYSTEM
     int angleCount = angleMotor.GetSelectedSensorPosition(0);
     currentShooterAngle = double(angleCount) / ROTATION_CONSTANT;
     //frc::SmartDashboard::PutNumber("shooter angle count raw", angleCount);
+#endif
     return currentShooterAngle;
 }
 
 void Shooter::SetIntakeRollerSpeed(double rollerSpeed)
 {
+#ifdef ENABLE_SHOOTER_SYSTEM
     double upperRollerSpeed = rollerSpeed;
-    // intakeRollerAndLowerConveyorMotor.Set(rollerSpeed);
     intakeRollerMotor.Set(upperRollerSpeed);
-    // IsBallBlockingLowerSensor();
+#endif
 }
 
 void Shooter::SetShooterFeedMotorSpeed(double feedmotorspeed)
 {
+#ifdef ENABLE_SHOOTER_SYSTEM
     shooterFeedMotor.Set(feedmotorspeed);
+#endif
 }
 
 void Shooter::SetConveyorIntakeMotorSpeed(double motorSpeed)
 {
-    // SqueezeConveyor(false);
-    //  SetIntakeRollerSpeed(motorSpeed);
+#ifdef ENABLE_SHOOTER_SYSTEM
     conveyorMotor.Set(motorSpeed);
+#endif
 }
+
 #if 0
 void Shooter::GrabTheBall(bool grab)
 {

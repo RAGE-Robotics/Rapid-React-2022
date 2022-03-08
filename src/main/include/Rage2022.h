@@ -18,6 +18,13 @@
 // Comment out the line to build for the competition robot
 //#define PARADE_ROBOT
 
+// Comment out any system definition line to disable support for it
+#define ENABLE_DRIVE_SYSTEM
+#define ENABLE_INTAKE_SYSTEM
+#define ENABLE_SHOOTER_SYSTEM
+#define ENABLE_CLIMBER_SYSTEM
+//#define ENABLE_SMARTDASH_PID
+
 //Test mode enter true = 1
 #define TEST_MODE 0
 
@@ -29,7 +36,7 @@
 ////////////////////////////////////
 #define RIGHT_DRIVER_JOYSTICK_USB 1
 #define HIGH_GEAR_BUTTON 1
-#define INTAKE_ROLLER_ON_BUTTON_B 2
+#define INTAKE_ROLLER_ON_BUTTON_DRIVER 2
 
 ////////////////////////////////////
 #define LEFT_OPERATOR_JOYSTICK_USB 2
@@ -67,13 +74,15 @@
 #define SHOOTER_MOTOR_TOP_CAN 3
 #define SHOOTER_MOTOR_BOTTOM_CAN 1
 #define SHOOTER_ANGLE_MOTOR_CAN 12
+#define CLIMBER_MOTOR_1_CAN 13
+#define CLIMBER_MOTOR_2_CAN 14
 
 // PCM bits
 #define GEAR_SHIFT_UP_SOLENOID 0
 #define GEAR_SHIFT_DOWN_SOLENOID 1
-#define BALL_GATE_SOLENOID 3
 #define DEPLOY_INTAKE_SOLENOID 2
 #define RETRACT_INTAKE_SOLENOID 4
+#define BALL_GATE_SOLENOID 3
 
 // PWM ports
 
@@ -88,15 +97,19 @@
 
 #define FORWARD +1
 #define BACKWARD -1
+#define ON true
+#define OFF false
+#define HIGH_GEAR true
+#define LOW_GEAR false
 
 #define LEFT_DRIVE_MOTOR_SCALER 1.0
 #define RIGHT_DRIVE_MOTOR_SCALER 1.0
 
-#define INTAKE_ROLLER_MOTOR_SPEED 0.75 //1.0
+#define INTAKE_ROLLER_MOTOR_SPEED 0.75
 #define CONVEYOR_MOTOR_SPEED 0.5
 #define SHOOTER_FEED_MOTOR_SPEED -1.0
-#define SHOOTER_SPEED_TOP_VELOCITY 5000 //RPM
-#define SHOOTER_SPEED_BOTTOM_VELOCITY 5000 //RPM
+#define SHOOTER_SPEED_TOP_VELOCITY 5000         // RPM
+#define SHOOTER_SPEED_BOTTOM_VELOCITY 5000      // RPM
 #define SHOOTER_SPEED_VELOCITY_AUTONOMOUS 4000
 #define SHOOTER_SPEED_VELOCITY_FIFTEEN_FEET 4500
 #define SHOOTER_SPEED_VELOCITY_TWENTY_FEET 4800
