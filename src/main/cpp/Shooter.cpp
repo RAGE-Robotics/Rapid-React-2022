@@ -285,13 +285,6 @@ void Shooter::SetIntakeRollerSpeed(double rollerSpeed)
 #endif
 }
 
-void Shooter::SetShooterFeedMotorSpeed(double feedmotorspeed)
-{
-#ifdef ENABLE_SHOOTER_SYSTEM
-    shooterFeedMotor.Set(feedmotorspeed);
-#endif
-}
-
 void Shooter::SetConveyorIntakeMotorSpeed(double motorSpeed)
 {
 #ifdef ENABLE_SHOOTER_SYSTEM
