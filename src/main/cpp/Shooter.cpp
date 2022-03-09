@@ -19,9 +19,6 @@ Shooter::Shooter()
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
     angleMotor.SetInverted(false);
-
-    intakeRollerMotor.SetInverted(false);
-    conveyorMotor.SetInverted(false);
 #endif
 
     kTimeoutMs = 0;
