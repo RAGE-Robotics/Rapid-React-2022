@@ -5,15 +5,15 @@ Shooter::Shooter()
 {
 #ifdef ENABLE_SHOOTER_SYSTEM
     shooterMotorTop.ConfigFactoryDefault();
+    shooterMotorTop.SetNeutralMode(Coast);
     shooterMotorTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorTop.SetSensorPhase(true);
-
     shooterMotorTop.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
     shooterMotorBottom.ConfigFactoryDefault();
+    shooterMotorBottom.SetNeutralMode(Coast);
     shooterMotorBottom.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorBottom.SetSensorPhase(true);
-
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 #endif
 

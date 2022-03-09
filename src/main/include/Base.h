@@ -6,7 +6,7 @@
 class Base
 {
 public:
-    Base(){};
+    Base();
     void TankDrive(double leftSpeed, double rightSpeed);
     void SetGear(bool isHighGear);
     void DeployIntake(void);
