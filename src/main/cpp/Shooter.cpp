@@ -6,15 +6,22 @@ Shooter::Shooter()
 #ifdef ENABLE_SHOOTER_SYSTEM
     shooterMotorTop.ConfigFactoryDefault();
     shooterMotorTop.SetNeutralMode(Coast);
+    shooterMotorTop.SetInverted(true);
     shooterMotorTop.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorTop.SetSensorPhase(true);
     shooterMotorTop.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
     shooterMotorBottom.ConfigFactoryDefault();
     shooterMotorBottom.SetNeutralMode(Coast);
+    shooterMotorBottom.SetInverted(false);
     shooterMotorBottom.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor, 0, 0);
     shooterMotorBottom.SetSensorPhase(true);
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
+
+    angleMotor.SetInverted(false);
+
+    intakeRollerMotor.SetInverted(false);
+    conveyorMotor.SetInverted(false);
 #endif
 
     kTimeoutMs = 0;
@@ -72,8 +79,6 @@ void Shooter::SetShooterSpeedBottomVoltage(double voltage)
 
 void Shooter::SetShooterSpeedTopVelocityRPM(double speed)
 {
-    speed = -speed;
-
     if (speed == 0.0)
     {
         SetShooterSpeedTopVoltage(0.0);
