@@ -46,7 +46,7 @@ private:
     AutoController autoController;
 
     frc::Compressor compressor{frc::PneumaticsModuleType::REVPH};
-    const units::pounds_per_square_inch_t kCompressorMinPressure {20};
+    const units::pounds_per_square_inch_t kCompressorMinPressure {95};
     const units::pounds_per_square_inch_t kCompressorMaxPressure {120};
 
     bool shooterHoming {false};

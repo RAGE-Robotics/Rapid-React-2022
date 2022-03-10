@@ -242,7 +242,7 @@ void Shooter::MoveAngleMotor(double speed, int direction)
 
 bool Shooter::AngleMotorAtHome(void)
 {
-    bool isAtHome = angleAtHome.Get();
+    bool isAtHome = !angleAtHome.Get();
     return isAtHome;
 }
 

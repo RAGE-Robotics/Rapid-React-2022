@@ -194,12 +194,12 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Operator change shooter angle
-    if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_INCREASE_BUTTON))
+    if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_INCREASE_BUTTON))
     {
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, FORWARD);
         //shooter.IncreaseShooterAngle();
     }
-    else if (operatorRightStick.GetRawButtonPressed(SHOOTER_ANGLE_DECREASE_BUTTON))
+    else if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_DECREASE_BUTTON))
     {
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, BACKWARD);
         //shooter.DecreaseShooterAngle();
