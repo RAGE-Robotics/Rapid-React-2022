@@ -35,21 +35,41 @@ struct AutoAction
 };
 
 // DEFINED ACTION LISTS (Should probably be moved)==================================================
-const std::vector<AutoAction> k_forwardBack{
+const std::vector<AutoAction> k_leaveTarmac {
     AutoAction(
         ActionType::DRIVE_FORWARD,
         3.0f, // Duration
+        1.0f) // Delay
+};
+
+const std::vector<AutoAction> k_leaveTarmacAndShoot {
+    AutoAction(
+        ActionType::DRIVE_FORWARD,
+        3.0f,  // Duration
+        1.0f), // Delay
+    AutoAction(
+        ActionType::SHOOT_ON,
+        2.0f, // Duration
+        1.0f) // Delay
+};
+
+const std::vector<AutoAction> k_forwardBack {
+    AutoAction(
+        ActionType::DRIVE_FORWARD,
+        3.0f,  // Duration
         1.0f), // Delay
     AutoAction(
         ActionType::DRIVE_BACKWARD,
         3.0f, // Duration
-        1.0f)}; // Delay
+        1.0f) // Delay
+};
 
-const std::vector<AutoAction> k_doNothing{
+const std::vector<AutoAction> k_doNothing { 
     AutoAction(
         ActionType::NOTHING,
         94823490239.0f, // 3006 years. If a competition lasts longer than that, we have an issue
-        1.0f)};
+        1.0f)
+};
 
 // ================================================================================================
 class AutoController

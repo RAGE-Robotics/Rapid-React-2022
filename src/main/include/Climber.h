@@ -6,7 +6,7 @@
 class Climber
 {
 public:
-    Climber(){};
+    Climber();
     void RotateClimber(double speed, int direction = 0);
 
 private:

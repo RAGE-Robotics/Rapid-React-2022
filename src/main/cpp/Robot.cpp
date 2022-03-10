@@ -4,8 +4,10 @@
 
 void Robot::RobotInit()
 {
-    m_chooser.SetDefaultOption("Do nothing", "donothing");
-    m_chooser.AddOption("Forwards then back", "forwardback");
+    m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
+    m_chooser.AddOption("Leave tarmac and shoot", "leavetarmacandshoot");
+    m_chooser.AddOption("Forward then back", "forwardback");
+    m_chooser.AddOption("Do nothing", "donothing");
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
     compressor.EnableAnalog(kCompressorMinPressure, kCompressorMaxPressure);
@@ -51,13 +53,21 @@ void Robot::AutonomousInit()
 
     shooterHoming = true;
 
-    if (m_autoSelected == "forwardback")
+    if (m_autoSelected == "leavetarmac")
     {
-        autoController.setActions(k_forwardBack); // k_forwardBack is defined in Auto.h
+        autoController.setActions(k_leaveTarmac);
+    }
+    else if (m_autoSelected == "leavetarmacandshoot")
+    {
+        autoController.setActions(k_leaveTarmacAndShoot);
+    }
+    else if (m_autoSelected == "forwardback")
+    {
+        autoController.setActions(k_forwardBack);
     }
     else if (m_autoSelected == "donothing")
     {
-        autoController.setActions(k_doNothing); // k_doNothing is defined in Auto.h
+        autoController.setActions(k_doNothing);
     }
 }
 
@@ -78,34 +88,36 @@ void Robot::AutonomousPeriodic()
             shooter.MoveAngleMotor(0);
         }
     }
-
-    if (m_autoSelected == kAutoNameCustom)
-    {
-        // Custom Auto goes here
-    }
     else
     {
-        // Default Auto goes here
-    }
+        if (m_autoSelected == kAutoNameCustom)
+        {
+            // Custom Auto goes here
+        }
+        else
+        {
+            // Default Auto goes here
+        }
 
-    ActionType currentAction = autoController.getCurrentAction();
+        ActionType currentAction = autoController.getCurrentAction();
 
-    switch (currentAction)
-    {
-    case ActionType::DRIVE_FORWARD:
-        // wpi::outs() << "Driving Forwards!\n";
-        base.TankDrive(0.2, 0.2);
-        break;
-    case ActionType::DRIVE_BACKWARD:
-        base.TankDrive(-0.2, -0.2);
-        // wpi::outs() << "Driving Backwards!\n";
-        break;
-    case ActionType::NOTHING:
-        base.TankDrive(0.0, 0.0);
-        // wpi::outs() << "Doing nothing...\n";
-        break;
-    default:
-        break;
+        switch (currentAction)
+        {
+        case ActionType::DRIVE_FORWARD:
+            base.TankDrive(0.2, 0.2);
+            break;
+        case ActionType::DRIVE_BACKWARD:
+            base.TankDrive(-0.2, -0.2);
+            break;
+        case ActionType::SHOOT_ON:
+            shooter.SpinUpShooterMotors();
+            break;
+        case ActionType::NOTHING:
+            base.TankDrive(0.0, 0.0);
+            break;
+        default:
+            break;
+        }
     }
 }
 
