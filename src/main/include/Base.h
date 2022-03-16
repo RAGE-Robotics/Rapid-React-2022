@@ -6,10 +6,11 @@
 class Base
 {
 public:
-    Base();
+    Base(); // Based
     void TankDrive(double leftSpeed, double rightSpeed);
     void SetGear(bool isHighGear);
     void DeployIntake(void);
+    void ReleaseIntake(void);
     void RetractIntake(void);
     void IntakeMotor(bool isOn);
     void ConveyorMotor(bool isOn, int direction = 0);

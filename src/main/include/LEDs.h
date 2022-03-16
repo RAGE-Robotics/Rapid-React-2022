@@ -4,7 +4,7 @@
 //#include <vector>
 //#include "Enemy.h"
 
-class LEDs
+class LEDs // His name is clide
 {
 public:
     LEDs();

@@ -18,6 +18,7 @@ Shooter::Shooter()
     shooterMotorBottom.SetSensorPhase(true);
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
+    angleMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
     angleMotor.SetInverted(false);
 #endif
 
@@ -57,8 +58,6 @@ Shooter::Shooter()
     shooterMotorBottom.Config_kI(0, bot_kI, kTimeoutMs);
     shooterMotorBottom.Config_kD(0, bot_kD, kTimeoutMs);
 #endif
-
-    //  shooterLeadScrewMotor.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 30);
 }
 
 void Shooter::SetShooterSpeedTopVoltage(double voltage)
@@ -258,12 +257,13 @@ void Shooter::DecreaseTargetAngle(void)
     targetShooterAngle -= DEG_TO_RAD * 15.0;
 }
 
-void Shooter::AimShooter(double radians)
+void Shooter::AimShooter(double turns)
 {
 #ifdef ENABLE_SHOOTER_SYSTEM
-    double rotations = (currentShooterAngle - targetShooterAngle) * ANGLE_TO_ROTATIONS;
-    angleMotor.Set(ControlMode::Position, rotations);
-    currentShooterAngle = targetShooterAngle;
+    // double rotations = (currentShooterAngle - targetShooterAngle) * ANGLE_TO_ROTATIONS;
+    // angleMotor.Set(ControlMode::Position, rotations);
+    // currentShooterAngle = targetShooterAngle;
+    angleMotor.Set(ControlMode::Position, turns * COUNTS_PER_REV);
 #endif
 }
 
@@ -271,7 +271,7 @@ double Shooter::GetShooterAngle(void)
 {
 #ifdef ENABLE_SHOOTER_SYSTEM
     int angleCount = angleMotor.GetSelectedSensorPosition(0);
-    currentShooterAngle = double(angleCount) / ROTATION_CONSTANT;
+    currentShooterAngle = double(angleCount) / COUNTS_PER_REV;
     //frc::SmartDashboard::PutNumber("shooter angle count raw", angleCount);
 #endif
     return currentShooterAngle;

@@ -50,6 +50,7 @@ private:
     const units::pounds_per_square_inch_t kCompressorMaxPressure {120};
 
     bool shooterHoming {false};
+    bool climberActive{0};
     
     LEDs leds;
     Base base;

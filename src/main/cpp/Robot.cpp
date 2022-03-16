@@ -5,6 +5,7 @@
 void Robot::RobotInit()
 {
     m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
+    m_chooser.AddOption("Leave tarmac and pick up ball", "leavetarmacpickupball");
     m_chooser.AddOption("Leave tarmac and shoot", "leavetarmacandshoot");
     m_chooser.AddOption("Forward then back", "forwardback");
     m_chooser.AddOption("Do nothing", "donothing");
@@ -57,6 +58,10 @@ void Robot::AutonomousInit()
     {
         autoController.setActions(k_leaveTarmac);
     }
+    else if (m_autoSelected == "leavetarmacpickupball")
+    {
+        autoController.setActions(k_leaveTarmacPickUpBall);
+    }
     else if (m_autoSelected == "leavetarmacandshoot")
     {
         autoController.setActions(k_leaveTarmacAndShoot);
@@ -76,41 +81,62 @@ void Robot::AutonomousPeriodic()
     leds.displayRainbow();
 
     // Home the shooter angle mechanism
-    if (shooterHoming)
+    // if (shooterHoming)
+    // {
+    //     if (!shooter.AngleMotorAtHome())
+    //     {
+    //         shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
+    //     }
+    //     else
+    //     {
+    //         shooterHoming = false;
+    //         shooter.MoveAngleMotor(0);
+    //     }
+    // }
+    // else
     {
-        if (!shooter.AngleMotorAtHome())
-        {
-            shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
-        }
-        else
-        {
-            shooterHoming = false;
-            shooter.MoveAngleMotor(0);
-        }
-    }
-    else
-    {
-        if (m_autoSelected == kAutoNameCustom)
-        {
-            // Custom Auto goes here
-        }
-        else
-        {
-            // Default Auto goes here
-        }
-
         ActionType currentAction = autoController.getCurrentAction();
 
         switch (currentAction)
         {
+        case ActionType::SHIFT_HIGH:
+            base.SetGear(HIGH_GEAR);
+            break;
+        case ActionType::SHIFT_LOW:
+            base.SetGear(LOW_GEAR);
+            break;
         case ActionType::DRIVE_FORWARD:
-            base.TankDrive(0.2, 0.2);
+            base.TankDrive(-0.7, -0.7);
             break;
         case ActionType::DRIVE_BACKWARD:
-            base.TankDrive(-0.2, -0.2);
+            base.TankDrive(0.7, 0.7);
+            break;
+        case ActionType::DEPLOY_INTAKE:
+            base.DeployIntake();
+            break;
+        case ActionType::RELEASE_INTAKE:
+            base.ReleaseIntake();
+            break;
+        case ActionType::AIM_SHOOTER:
+            shooter.AimShooter(1);
             break;
         case ActionType::SHOOT_ON:
             shooter.SpinUpShooterMotors();
+            break;
+        case ActionType::SHOOT_OFF:
+            shooter.ShutDownShooterMotors();
+            break;
+        case ActionType::INTAKE_ON:
+            base.IntakeMotor(ON);
+            break;
+        case ActionType::INTAKE_OFF:
+            base.IntakeMotor(OFF);
+            break;
+        case ActionType::CONVEYOR_ON:
+            base.ConveyorMotor(ON);
+            break;
+        case ActionType::CONVEYOR_OFF:
+            base.ConveyorMotor(OFF);
             break;
         case ActionType::NOTHING:
             base.TankDrive(0.0, 0.0);
@@ -157,9 +183,14 @@ void Robot::TeleopPeriodic()
         base.IntakeMotor(OFF);
     }
 
-    if (operatorLeftStick.GetRawButton(DEPLOY_INTAKE_BUTTON))
+    if (operatorLeftStick.GetRawButtonPressed(DEPLOY_INTAKE_BUTTON))
     {
         base.DeployIntake();
+    }
+
+    if (operatorLeftStick.GetRawButtonReleased(DEPLOY_INTAKE_BUTTON))
+    {
+        base.ReleaseIntake();
     }
 
     if (operatorLeftStick.GetRawButton(RETRACT_INTAKE_BUTTON))
@@ -228,6 +259,35 @@ void Robot::TeleopPeriodic()
         leds.displayFallingLights();
     }
 
+    //////////////////////////////////////////////////////
+    // Rotate climber
+    if (operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1)) // this could be one line of code:
+    {                                                             // climberActive = operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1);
+        climberActive = true;
+    }
+    else
+    {
+        climberActive = false;
+    }
+
+    if (climberActive)
+    {
+        climber.RotateClimber(operatorRightStick.GetY(), FORWARD);
+    }
+    else
+    {
+        climber.RotateClimber(0, FORWARD);
+    }
+    /////////////////////////////////////////////////////////
+    // Climber break piston
+    if (driverLeftStick.GetRawButtonPressed(CLIMBER_ENGAGE_BRAKE_BUTTON))
+    {
+        climber.EngageBrake();
+    }
+    if (driverRightStick.GetRawButtonPressed(CLIMBER_DISENGAGE_BRAKE_BUTTON))
+    {
+        climber.DisengageBrake();
+    }
     ///////////////////////////////////////////////////////
     // Camera operation
     // if (m_limelightLEDModeSelected == "default")

@@ -54,6 +54,14 @@ void Base::DeployIntake(void)
 #endif
 }
 
+void Base::ReleaseIntake(void)
+{
+#ifdef ENABLE_INTAKE_SYSTEM
+    retractIntakeSolenoid.Set(false);
+    deployIntakeSolenoid.Set(false);
+#endif
+}
+
 void Base::RetractIntake(void)
 {
 #ifdef ENABLE_INTAKE_SYSTEM
@@ -66,7 +74,7 @@ void Base::IntakeMotor(bool isOn)
 {
 #ifdef ENABLE_INTAKE_SYSTEM
     if (isOn) {
-        intakeMotor.Set(ControlMode::PercentOutput, INTAKE_ROLLER_MOTOR_SPEED);
+        intakeMotor.Set(ControlMode::PercentOutput, -INTAKE_ROLLER_MOTOR_SPEED);
     } else {
         intakeMotor.Set(ControlMode::PercentOutput, 0);
     }

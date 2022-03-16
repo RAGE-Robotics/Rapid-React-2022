@@ -22,7 +22,7 @@ public:
     bool AngleMotorAtHome(void);
     void IncreaseTargetAngle(void);
     void DecreaseTargetAngle(void);
-    void AimShooter(double radians);
+    void AimShooter(double turns);
     void SetShooterAngle(double angle);
     double GetShooterAngle(void);
 

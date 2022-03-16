@@ -15,3 +15,24 @@ void Climber::RotateClimber(double speed, int direction)
     climberMotor2.Set(ControlMode::PercentOutput, speed * direction);
 #endif
 }
+
+void Climber::EngageBrake() {
+#ifdef ENABLE_CLIMBER_SYSTEM
+    extendBrakeSolenoid.Set(ON);
+    retractBrakeSolenoid.Set(OFF);
+#endif
+}
+
+void Climber::DisengageBrake() {
+#ifdef ENABLE_CLIMBER_SYSTEM
+    extendBrakeSolenoid.Set(OFF);
+    retractBrakeSolenoid.Set(ON);
+#endif
+}
+
+void Climber::ReleaseBrake() {
+#ifdef ENABLE_CLIMBER_SYSTEM
+    extendBrakeSolenoid.Set(OFF);
+    retractBrakeSolenoid.Set(OFF);
+#endif
+}
