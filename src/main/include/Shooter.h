@@ -60,8 +60,9 @@ private:
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeRollerMotor{INTAKE_ROLLER_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{CONVEYOR_MOTOR_CAN};
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX angleMotor{SHOOTER_ANGLE_MOTOR_CAN};
-#endif
 
     frc::DigitalInput angleAtHome{SHOOTER_ANGLE_ZERO_SWITCH_DIO};
     frc::Timer rollerIntakeDelay;
+    
+#endif
 };

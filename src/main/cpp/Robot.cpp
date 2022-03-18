@@ -4,6 +4,7 @@
 
 void Robot::RobotInit()
 {
+
     m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
     m_chooser.AddOption("Leave tarmac and pick up ball", "leavetarmacpickupball");
     m_chooser.AddOption("Leave tarmac and shoot", "leavetarmacandshoot");
@@ -11,13 +12,15 @@ void Robot::RobotInit()
     m_chooser.AddOption("Do nothing", "donothing");
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+#ifdef ENABLE_COMPRESSOR
     compressor.EnableAnalog(kCompressorMinPressure, kCompressorMaxPressure);
+#endif
 
-    // m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
-    // m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
-    // m_limelightLEDChooser.AddOption("LEDs On", "ledson");
-    // m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
-    // frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
+    m_limelightLEDChooser.SetDefaultOption("Default LED Behavior", "default");
+    m_limelightLEDChooser.AddOption("LEDs Off", "ledsoff");
+    m_limelightLEDChooser.AddOption("LEDs On", "ledson");
+    m_limelightLEDChooser.AddOption("LEDs Blinking", "ledsblinking");
+    frc::SmartDashboard::PutData("Limelight LED Modes", &m_limelightLEDChooser);
 
     leds.displayTeamColor();
 }
@@ -47,7 +50,6 @@ void Robot::AutonomousInit()
 {
     m_gameTimer.Reset();
     m_gameTimer.Start();
-    m_autoSelected = m_chooser.GetSelected();
     m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
     autoController.start();
@@ -156,6 +158,12 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
+    if ((rand() % 30) == 0)
+    {
+        wpi::outs() << std::to_string(shooter.GetShooterAngle()) << "\n";
+    }
+
+#ifdef ENABLE_STICK_CONTROL
     ///////////////////////////////////////////////////////
     // Base driving
     base.TankDrive(driverLeftStick.GetY(), driverRightStick.GetY());
@@ -223,11 +231,11 @@ void Robot::TeleopPeriodic()
     {
         shooter.ShutDownShooterMotors();
     }
-    
+
     // Update Smart Dashboard when used
     shooter.GetShooterSpeedTopRPM();
     shooter.GetShooterSpeedBottomRPM();
-    
+
     ///////////////////////////////////////////////////////
     // Operator shoot the ball
     if (operatorRightStick.GetRawButtonPressed(SHOOT_BUTTON))
@@ -240,23 +248,16 @@ void Robot::TeleopPeriodic()
     if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_INCREASE_BUTTON))
     {
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, FORWARD);
-        //shooter.IncreaseShooterAngle();
+        // shooter.IncreaseShooterAngle();
     }
     else if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_DECREASE_BUTTON))
     {
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, BACKWARD);
-        //shooter.DecreaseShooterAngle();
+        // shooter.DecreaseShooterAngle();
     }
     else
     {
         shooter.MoveAngleMotor(0);
-    }
-
-    ///////////////////////////////////////////////////////
-    // LEDs
-    if (m_gameTimer.HasElapsed((units::second_t)120.0))
-    {
-        leds.displayFallingLights();
     }
 
     //////////////////////////////////////////////////////
@@ -288,29 +289,38 @@ void Robot::TeleopPeriodic()
     {
         climber.DisengageBrake();
     }
+
+#endif
+    ///////////////////////////////////////////////////////
+    // LEDs
+    if (m_gameTimer.HasElapsed((units::second_t)120.0))
+    {
+        leds.displayFallingLights();
+    }
+
     ///////////////////////////////////////////////////////
     // Camera operation
-    // if (m_limelightLEDModeSelected == "default")
-    // {
-    //     limelightCamera.setLEDsToDefault();
-    // }
-    // else if (m_limelightLEDModeSelected == "ledsoff")
-    // {
-    //     limelightCamera.turnOffLEDs();
-    // }
-    // else if (m_limelightLEDModeSelected == "ledson")
-    // {
-    //     limelightCamera.turnOnLEDs();
-    // }
-    // else if (m_limelightLEDModeSelected == "ledsblinking")
-    // {
-    //     limelightCamera.blinkLEDs();
-    // }
+    if (m_limelightLEDModeSelected == "default")
+    {
+        limelightCamera.setLEDsToDefault();
+    }
+    else if (m_limelightLEDModeSelected == "ledsoff")
+    {
+        limelightCamera.turnOffLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledson")
+    {
+        limelightCamera.turnOnLEDs();
+    }
+    else if (m_limelightLEDModeSelected == "ledsblinking")
+    {
+        limelightCamera.blinkLEDs();
+    }
 
-    // if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
-    // {
-    //   std::cout << "Camera Distance to Target: " << limelightCamera.getDistanceToTarget() << std::endl;
-    // }
+    if (limelightCamera.hasValidTarget() && (rand() % 10 == 0))
+    {
+        wpi::outs() << "Camera Distance to Target: " << std::to_string(limelightCamera.getDistanceToTarget()) << "\n";
+    }
 }
 
 void Robot::DisabledInit() {}

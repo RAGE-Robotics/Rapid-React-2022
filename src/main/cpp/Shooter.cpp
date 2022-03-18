@@ -18,21 +18,21 @@ Shooter::Shooter()
     shooterMotorBottom.SetSensorPhase(true);
     shooterMotorBottom.ConfigClosedloopRamp(1.0); // seconds from 0 to full speed;
 
-    angleMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor);
+    angleMotor.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder);
     angleMotor.SetInverted(false);
 #endif
 
     kTimeoutMs = 0;
 
-    top_kF = 0.1;       // 0.1
-    top_kP = 0.25;      // 0.15
-    top_kI = 0.;        // 0.00008
-    top_kD = 0.;        // 0.01
+    top_kF = 0.1;  // 0.1
+    top_kP = 0.25; // 0.15
+    top_kI = 0.;   // 0.00008
+    top_kD = 0.;   // 0.01
 
-    bot_kF = 0.1;       // 0.1
-    bot_kP = 0.25;      // 0.15
-    bot_kI = 0.;        // 0.00008
-    bot_kD = 0.;        //0.01;
+    bot_kF = 0.1;  // 0.1
+    bot_kP = 0.25; // 0.15
+    bot_kI = 0.;   // 0.00008
+    bot_kD = 0.;   // 0.01;
 
 #ifdef ENABLE_SMARTDASH_PID
     frc::SmartDashboard::PutNumber("Top kF", top_kF);
@@ -243,8 +243,13 @@ void Shooter::MoveAngleMotor(double speed, int direction)
 
 bool Shooter::AngleMotorAtHome(void)
 {
+#ifdef ENABLE_SHOOTER_SYSTEM
+
     bool isAtHome = !angleAtHome.Get();
     return isAtHome;
+#else
+    return true;
+#endif
 }
 
 void Shooter::IncreaseTargetAngle(void)
@@ -272,7 +277,7 @@ double Shooter::GetShooterAngle(void)
 #ifdef ENABLE_SHOOTER_SYSTEM
     int angleCount = angleMotor.GetSelectedSensorPosition(0);
     currentShooterAngle = double(angleCount) / COUNTS_PER_REV;
-    //frc::SmartDashboard::PutNumber("shooter angle count raw", angleCount);
+    frc::SmartDashboard::PutNumber("shooter angle count raw", angleCount);
 #endif
     return currentShooterAngle;
 }

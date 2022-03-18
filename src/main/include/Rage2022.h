@@ -19,11 +19,14 @@
 //#define PARADE_ROBOT
 
 // Comment out any system definition line to disable support for it
+
 #define ENABLE_DRIVE_SYSTEM
 #define ENABLE_INTAKE_SYSTEM
 #define ENABLE_SHOOTER_SYSTEM
 #define ENABLE_CLIMBER_SYSTEM
-//#define ENABLE_SMARTDASH_PID
+#define ENABLE_SMARTDASH_PID
+#define ENABLE_COMPRESSOR
+// #define ENABLE_STICK_CONTROL
 
 //Joysticks and buttons
 ////////////////////////////////////
