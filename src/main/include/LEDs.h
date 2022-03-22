@@ -21,7 +21,7 @@ public:
     // void nextGameStage();
 
 private:
-    static constexpr int kLength = 50;
+    static constexpr int kLength = 200;
     // // PWM port 9
     // // Must be a PWM header, not MXP or DIO
     frc::AddressableLED m_led{9};

@@ -278,6 +278,7 @@ double Shooter::GetShooterAngle(void)
     int angleCount = angleMotor.GetSelectedSensorPosition(0);
     currentShooterAngle = double(angleCount) / COUNTS_PER_REV;
     frc::SmartDashboard::PutNumber("shooter angle count raw", angleCount);
+    frc::SmartDashboard::PutNumber("shooter angle motor rotations", currentShooterAngle);
 #endif
     return currentShooterAngle;
 }
