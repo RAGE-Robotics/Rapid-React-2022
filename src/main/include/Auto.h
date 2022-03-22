@@ -13,7 +13,8 @@ enum class ActionType
     DRIVE_BACKWARD,
     DEPLOY_INTAKE,
     RELEASE_INTAKE,
-    AIM_SHOOTER,
+    AIM_SHOOTER_AUTO,
+    AIM_SHOOTER_TELEOP,
     TURN_LEFT,
     TURN_RIGHT,
     SHOOT_ON,
@@ -41,14 +42,14 @@ struct AutoAction
     float delay;
 };
 
-// DEFINED ACTION LISTS (Should probably be moved)==================================================
+// Defined action lists for autonomous
 const std::vector<AutoAction> k_leaveTarmac{
     AutoAction(
         ActionType::SHIFT_HIGH,
         0.5f,  // Duration
         0.1f), // Delay
     AutoAction(
-        ActionType::AIM_SHOOTER,
+        ActionType::AIM_SHOOTER_TELEOP,
         1.0f,  // Duration
         1.0f), // Delay
     AutoAction(
@@ -71,7 +72,7 @@ const std::vector<AutoAction> k_leaveTarmacPickUpBall{
         0.5f,
         0.0f),
     AutoAction(
-        ActionType::AIM_SHOOTER,
+        ActionType::AIM_SHOOTER_TELEOP,
         1.0f,  // Duration
         0.0f), // Delay
     AutoAction(
@@ -80,7 +81,7 @@ const std::vector<AutoAction> k_leaveTarmacPickUpBall{
         0.5f),
     AutoAction(
         ActionType::DRIVE_FORWARD,
-        2.0f, // Duration
+        2.0f,  // Duration
         1.0f), // Delay
     AutoAction(
         ActionType::INTAKE_OFF,
@@ -88,23 +89,43 @@ const std::vector<AutoAction> k_leaveTarmacPickUpBall{
         0.0f), // Delay
 };
 
-const std::vector<AutoAction> k_leaveTarmacAndShoot{
+const std::vector<AutoAction> k_leaveTarmacPickAndShoot{
+    AutoAction(
+        ActionType::SHIFT_HIGH,
+        0.5f,  // Duration
+        2.0f), // Delay
+    AutoAction(
+        ActionType::DEPLOY_INTAKE,
+        1.0f,
+        0.0f),
+    AutoAction(
+        ActionType::RELEASE_INTAKE,
+        0.5f,
+        0.0f),
+    AutoAction(
+        ActionType::AIM_SHOOTER_AUTO,
+        1.0f,  // Duration
+        0.0f), // Delay
+    AutoAction(
+        ActionType::INTAKE_ON,
+        0.5f,
+        0.5f),
     AutoAction(
         ActionType::DRIVE_FORWARD,
-        3.0f,  // Duration
-        0.0f), // Delay
+        2.0f,  // Duration
+        1.0f), // Delay
     AutoAction(
-        ActionType::NOTHING, // Should stop the robot from continuing to drive, functions as DRIVE_OFF
-        0.1f,  // Duration
-        0.0f), // Delay
-    AutoAction(
-        ActionType::CONVEYOR_ON,
+        ActionType::INTAKE_OFF,
         0.1f,  // Duration
         0.0f), // Delay
     AutoAction(
         ActionType::SHOOT_ON,
-        3.0f,
+        1.2f,
         0.0f),
+    AutoAction(
+        ActionType::CONVEYOR_ON,
+        5.0f,  // Duration
+        0.0f), // Delay
     AutoAction(
         ActionType::CONVEYOR_OFF,
         0.1f,
@@ -112,7 +133,12 @@ const std::vector<AutoAction> k_leaveTarmacAndShoot{
     AutoAction(
         ActionType::SHOOT_OFF,
         0.1f,
-        0.0f)};
+        0.0f),
+    AutoAction(
+        ActionType::AIM_SHOOTER_TELEOP,
+        1.0f,  // Duration
+        0.0f)  // Delay
+};
 
 const std::vector<AutoAction> k_forwardBack{
     AutoAction(
@@ -128,8 +154,9 @@ const std::vector<AutoAction> k_forwardBack{
 const std::vector<AutoAction> k_doNothing{
     AutoAction(
         ActionType::NOTHING,
-        94823490239.0f, // 3006 years. If a competition lasts longer than that, we have an issue
-        1.0f)};
+        300.0f, // Duration
+        1.0f)   // Delay
+};
 
 // ================================================================================================
 class AutoController

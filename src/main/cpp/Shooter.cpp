@@ -262,13 +262,16 @@ void Shooter::DecreaseTargetAngle(void)
     targetShooterAngle -= DEG_TO_RAD * 15.0;
 }
 
+// 'turns' is an absolute encode position
 void Shooter::AimShooter(double turns)
 {
 #ifdef ENABLE_SHOOTER_SYSTEM
     // double rotations = (currentShooterAngle - targetShooterAngle) * ANGLE_TO_ROTATIONS;
     // angleMotor.Set(ControlMode::Position, rotations);
     // currentShooterAngle = targetShooterAngle;
-    angleMotor.Set(ControlMode::Position, turns * COUNTS_PER_REV);
+//    angleMotor.Set(ControlMode::Position, turns * COUNTS_PER_REV);
+    turns -= angleZeroOffset;
+    angleMotor.Set(ControlMode::MotionMagic, turns * COUNTS_PER_REV);
 #endif
 }
 
@@ -281,6 +284,12 @@ double Shooter::GetShooterAngle(void)
     frc::SmartDashboard::PutNumber("shooter angle motor rotations", currentShooterAngle);
 #endif
     return currentShooterAngle;
+}
+
+void Shooter::ZeroEncoder(void)
+{
+    double zeroCount = angleMotor.GetSelectedSensorPosition(0);
+    angleZeroOffset = zeroCount / COUNTS_PER_REV;
 }
 
 void Shooter::SetIntakeRollerSpeed(double rollerSpeed)

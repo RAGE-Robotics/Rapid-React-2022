@@ -12,14 +12,13 @@ ActionType AutoController::getCurrentAction() {
     float actionProgress = (float)m_currentActionTimer.Get();
     AutoAction& currentAction = m_actions[currActionIndex];
     
-    wpi::outs() << std::to_string(currentAction.duration) << "\n";
-    // if (actionProgress > currentAction.duration + currentAction.delay) {
-    //     currActionIndex++;
-    //     m_currentActionTimer.Reset();
-    // }
-    //if (actionProgress < currentAction.duration) {
-    //    return currentAction.type;
-    //}
+    if (actionProgress > currentAction.duration + currentAction.delay) {
+        currActionIndex++;
+        m_currentActionTimer.Reset();
+    }
+    if (actionProgress < currentAction.duration) {
+       return currentAction.type;
+    }
 
     return ActionType::NOTHING; // Will yell at us if we dont put this
 }

@@ -79,8 +79,6 @@
 #define SHOOTER_MOTOR_TOP_CAN 3             // FX  Falcon 500
 #define SHOOTER_MOTOR_BOTTOM_CAN 1          // FX  Falcon 500
 #define SHOOTER_ANGLE_MOTOR_CAN 12          // SRX Bag
-#define CLIMBER_MOTOR_1_CAN 13              // SRX CIM
-#define CLIMBER_MOTOR_2_CAN 14              // SRX CIM
 
 // PCM bits
 #define GEAR_SHIFT_UP_SOLENOID 1

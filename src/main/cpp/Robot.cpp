@@ -7,7 +7,7 @@ void Robot::RobotInit()
 
     m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
     m_chooser.AddOption("Leave tarmac and pick up ball", "leavetarmacpickupball");
-    m_chooser.AddOption("Leave tarmac and shoot", "leavetarmacandshoot");
+    m_chooser.AddOption("Leave tarmac, pick ball, shoot", "leavetarmacpickandshoot");
     m_chooser.AddOption("Forward then back", "forwardback");
     m_chooser.AddOption("Do nothing", "donothing");
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -64,9 +64,9 @@ void Robot::AutonomousInit()
     {
         autoController.setActions(k_leaveTarmacPickUpBall);
     }
-    else if (m_autoSelected == "leavetarmacandshoot")
+    else if (m_autoSelected == "leavetarmacpickandshoot")
     {
-        autoController.setActions(k_leaveTarmacAndShoot);
+        autoController.setActions(k_leaveTarmacPickAndShoot);
     }
     else if (m_autoSelected == "forwardback")
     {
@@ -80,10 +80,9 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-    
     leds.displayRainbow();
     
-    //Home the shooter angle mechanism
+    // Home the shooter angle mechanism
     if (shooterHoming)
     {
         if (!shooter.AngleMotorAtHome())
@@ -94,56 +93,63 @@ void Robot::AutonomousPeriodic()
         {
             shooterHoming = false;
             shooter.MoveAngleMotor(0);
+            shooter.ZeroEncoder();
         }
     }
-    
-    ActionType currentAction = autoController.getCurrentAction();
-    switch (currentAction)
+    else
     {
-    case ActionType::SHIFT_HIGH:
-        base.SetGear(HIGH_GEAR);
-        break;
-    case ActionType::SHIFT_LOW:
-        base.SetGear(LOW_GEAR);
-        break;
-    case ActionType::DRIVE_FORWARD:
-        base.TankDrive(-0.7, -0.7);
-        break;
-    case ActionType::DRIVE_BACKWARD:
-        base.TankDrive(0.7, 0.7);
-        break;
-    case ActionType::DEPLOY_INTAKE:
-        base.DeployIntake();
-        break;
-    case ActionType::RELEASE_INTAKE:
-        base.ReleaseIntake();
-        break;
-    case ActionType::AIM_SHOOTER:
-        shooter.AimShooter(1);
-        break;
-    case ActionType::SHOOT_ON:
-        shooter.SpinUpShooterMotors();
-        break;
-    case ActionType::SHOOT_OFF:
-        shooter.ShutDownShooterMotors();
-        break;
-    case ActionType::INTAKE_ON:
-        base.IntakeMotor(ON);
-        break;
-    case ActionType::INTAKE_OFF:
-        base.IntakeMotor(OFF);
-        break;
-    case ActionType::CONVEYOR_ON:
-        base.ConveyorMotor(ON);
-        break;
-    case ActionType::CONVEYOR_OFF:
-        base.ConveyorMotor(OFF);
-        break;
-    case ActionType::NOTHING:
-        base.TankDrive(0.0, 0.0);
-        break;
-    default:
-        break;
+        ActionType currentAction = autoController.getCurrentAction();
+
+        switch (currentAction)
+        {
+            case ActionType::SHIFT_HIGH:
+                base.SetGear(HIGH_GEAR);
+                break;
+            case ActionType::SHIFT_LOW:
+                base.SetGear(LOW_GEAR);
+                break;
+            case ActionType::DRIVE_FORWARD:
+                base.TankDrive(-0.7, -0.7);
+                break;
+            case ActionType::DRIVE_BACKWARD:
+                base.TankDrive(0.7, 0.7);
+                break;
+            case ActionType::DEPLOY_INTAKE:
+                base.DeployIntake();
+                break;
+            case ActionType::RELEASE_INTAKE:
+                base.ReleaseIntake();
+                break;
+            case ActionType::AIM_SHOOTER_AUTO:
+                shooter.AimShooter(shooter.kShooterAngleAutonomous);
+                break;
+            case ActionType::AIM_SHOOTER_TELEOP:
+                shooter.AimShooter(shooter.kShooterAngleTeleop);
+                break;
+            case ActionType::SHOOT_ON:
+                shooter.SpinUpShooterMotors();
+                break;
+            case ActionType::SHOOT_OFF:
+                shooter.ShutDownShooterMotors();
+                break;
+            case ActionType::INTAKE_ON:
+                base.IntakeMotor(ON);
+                break;
+            case ActionType::INTAKE_OFF:
+                base.IntakeMotor(OFF);
+                break;
+            case ActionType::CONVEYOR_ON:
+                base.ConveyorMotor(ON);
+                break;
+            case ActionType::CONVEYOR_OFF:
+                base.ConveyorMotor(OFF);
+                break;
+            case ActionType::NOTHING:
+                base.TankDrive(0.0, 0.0);
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -259,25 +265,7 @@ void Robot::TeleopPeriodic()
     }
 
     //////////////////////////////////////////////////////
-
-    // Rotate climber
-    // if (operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1)) // this could be one line of code:
-    // {                                                             // climberActive = operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1);
-    //     climberActive = true;
-    // }
-    // else
-    // {
-    //     climberActive = false;
-    // }
-
-    // if (climberActive)
-    // {
-    //     climber.RotateClimber(operatorRightStick.GetY(), FORWARD);
-    // }
-    // else
-    // {
-    //     climber.RotateClimber(0, FORWARD);
-    // }
+    // Control climber
 
     climberActive = operatorLeftStick.GetRawButton(CLIMBER_ENABLE_BUTTON);
 
@@ -294,8 +282,8 @@ void Robot::TeleopPeriodic()
             climber.RetractClimber();
         }
     }
-
 #endif
+
     ///////////////////////////////////////////////////////
     // LEDs
     if (m_gameTimer.HasElapsed((units::second_t)120.0))
