@@ -7,7 +7,7 @@ void Robot::RobotInit()
 
     m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
     m_chooser.AddOption("Leave tarmac and pick up ball", "leavetarmacpickupball");
-    m_chooser.AddOption("Leave tarmac and shoot", "leavetarmacandshoot");
+    m_chooser.AddOption("Leave tarmac, pick ball, shoot", "leavetarmacpickandshoot");
     m_chooser.AddOption("Forward then back", "forwardback");
     m_chooser.AddOption("Do nothing", "donothing");
     frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -64,9 +64,9 @@ void Robot::AutonomousInit()
     {
         autoController.setActions(k_leaveTarmacPickUpBall);
     }
-    else if (m_autoSelected == "leavetarmacandshoot")
+    else if (m_autoSelected == "leavetarmacpickandshoot")
     {
-        autoController.setActions(k_leaveTarmacAndShoot);
+        autoController.setActions(k_leaveTarmacPickAndShoot);
     }
     else if (m_autoSelected == "forwardback")
     {
@@ -93,6 +93,7 @@ void Robot::AutonomousPeriodic()
         {
             shooterHoming = false;
             shooter.MoveAngleMotor(0);
+            shooter.ZeroEncoder();
         }
     }
     else
@@ -119,8 +120,11 @@ void Robot::AutonomousPeriodic()
             case ActionType::RELEASE_INTAKE:
                 base.ReleaseIntake();
                 break;
-            case ActionType::AIM_SHOOTER:
-                shooter.AimShooter(1);
+            case ActionType::AIM_SHOOTER_AUTO:
+                shooter.AimShooter(shooter.kShooterAngleAutonomous);
+                break;
+            case ActionType::AIM_SHOOTER_TELEOP:
+                shooter.AimShooter(shooter.kShooterAngleTeleop);
                 break;
             case ActionType::SHOOT_ON:
                 shooter.SpinUpShooterMotors();

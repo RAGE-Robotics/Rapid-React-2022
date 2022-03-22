@@ -25,11 +25,15 @@ public:
     void AimShooter(double turns);
     void SetShooterAngle(double angle);
     double GetShooterAngle(void);
+    void ZeroEncoder(void);
 
     void SetIntakeRollerSpeed(double rollerSpeed);
     void SetConveyorIntakeMotorSpeed(double motorSpeed);
 
     bool IsBallBlockingLowerSensor(void);
+
+    const double kShooterAngleAutonomous{5};    // In number of lead screw turns
+    const double kShooterAngleTeleop{8};
 
 private:
     int kTimeoutMs {0};
@@ -47,6 +51,8 @@ private:
 
     double targetShooterAngle {0.};
     double currentShooterAngle {0.};
+
+    double angleZeroOffset {0.};
 
     int shooterSpeedTopVelocity = SHOOTER_SPEED_TOP_VELOCITY;
     int shooterSpeedBottomVelocity = SHOOTER_SPEED_BOTTOM_VELOCITY;
