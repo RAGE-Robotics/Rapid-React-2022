@@ -63,6 +63,5 @@ private:
 
     frc::DigitalInput angleAtHome{SHOOTER_ANGLE_ZERO_SWITCH_DIO};
     frc::Timer rollerIntakeDelay;
-    
 #endif
 };

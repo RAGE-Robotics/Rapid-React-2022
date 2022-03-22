@@ -112,7 +112,8 @@ const std::vector<AutoAction> k_leaveTarmacAndShoot{
     AutoAction(
         ActionType::SHOOT_OFF,
         0.1f,
-        0.0f)};
+        0.0f)
+};
 
 const std::vector<AutoAction> k_forwardBack{
     AutoAction(
@@ -128,8 +129,9 @@ const std::vector<AutoAction> k_forwardBack{
 const std::vector<AutoAction> k_doNothing{
     AutoAction(
         ActionType::NOTHING,
-        94823490239.0f, // 3006 years. If a competition lasts longer than that, we have an issue
-        1.0f)};
+        300.0f, // Duration
+        1.0f)   // Delay
+};
 
 // ================================================================================================
 class AutoController

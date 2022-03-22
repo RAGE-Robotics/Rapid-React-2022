@@ -80,73 +80,73 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-    
     leds.displayRainbow();
     
     // Home the shooter angle mechanism
-    // if (shooterHoming)
-    // {
-    //     if (!shooter.AngleMotorAtHome())
-    //     {
-    //         shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
-    //     }
-    //     else
-    //     {
-    //         shooterHoming = false;
-    //         shooter.MoveAngleMotor(0);
-    //     }
-    // }
-    
-    ActionType currentAction = autoController.getCurrentAction();
-    #if 0
-    switch (currentAction)
+    if (shooterHoming)
     {
-    case ActionType::SHIFT_HIGH:
-        base.SetGear(HIGH_GEAR);
-        break;
-    case ActionType::SHIFT_LOW:
-        base.SetGear(LOW_GEAR);
-        break;
-    case ActionType::DRIVE_FORWARD:
-        base.TankDrive(-0.7, -0.7);
-        break;
-    case ActionType::DRIVE_BACKWARD:
-        base.TankDrive(0.7, 0.7);
-        break;
-    case ActionType::DEPLOY_INTAKE:
-        base.DeployIntake();
-        break;
-    case ActionType::RELEASE_INTAKE:
-        base.ReleaseIntake();
-        break;
-    case ActionType::AIM_SHOOTER:
-        shooter.AimShooter(1);
-        break;
-    case ActionType::SHOOT_ON:
-        shooter.SpinUpShooterMotors();
-        break;
-    case ActionType::SHOOT_OFF:
-        shooter.ShutDownShooterMotors();
-        break;
-    case ActionType::INTAKE_ON:
-        base.IntakeMotor(ON);
-        break;
-    case ActionType::INTAKE_OFF:
-        base.IntakeMotor(OFF);
-        break;
-    case ActionType::CONVEYOR_ON:
-        base.ConveyorMotor(ON);
-        break;
-    case ActionType::CONVEYOR_OFF:
-        base.ConveyorMotor(OFF);
-        break;
-    case ActionType::NOTHING:
-        base.TankDrive(0.0, 0.0);
-        break;
-    default:
-        break;
+        if (!shooter.AngleMotorAtHome())
+        {
+            shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
+        }
+        else
+        {
+            shooterHoming = false;
+            shooter.MoveAngleMotor(0);
+        }
     }
-    #endif
+    else
+    {
+        ActionType currentAction = autoController.getCurrentAction();
+
+        switch (currentAction)
+        {
+            case ActionType::SHIFT_HIGH:
+                base.SetGear(HIGH_GEAR);
+                break;
+            case ActionType::SHIFT_LOW:
+                base.SetGear(LOW_GEAR);
+                break;
+            case ActionType::DRIVE_FORWARD:
+                base.TankDrive(-0.7, -0.7);
+                break;
+            case ActionType::DRIVE_BACKWARD:
+                base.TankDrive(0.7, 0.7);
+                break;
+            case ActionType::DEPLOY_INTAKE:
+                base.DeployIntake();
+                break;
+            case ActionType::RELEASE_INTAKE:
+                base.ReleaseIntake();
+                break;
+            case ActionType::AIM_SHOOTER:
+                shooter.AimShooter(1);
+                break;
+            case ActionType::SHOOT_ON:
+                shooter.SpinUpShooterMotors();
+                break;
+            case ActionType::SHOOT_OFF:
+                shooter.ShutDownShooterMotors();
+                break;
+            case ActionType::INTAKE_ON:
+                base.IntakeMotor(ON);
+                break;
+            case ActionType::INTAKE_OFF:
+                base.IntakeMotor(OFF);
+                break;
+            case ActionType::CONVEYOR_ON:
+                base.ConveyorMotor(ON);
+                break;
+            case ActionType::CONVEYOR_OFF:
+                base.ConveyorMotor(OFF);
+                break;
+            case ActionType::NOTHING:
+                base.TankDrive(0.0, 0.0);
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 void Robot::TeleopInit()
@@ -261,25 +261,7 @@ void Robot::TeleopPeriodic()
     }
 
     //////////////////////////////////////////////////////
-
-    // Rotate climber
-    // if (operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1)) // this could be one line of code:
-    // {                                                             // climberActive = operatorLeftStick.GetRawButton(CLIMBER_FORWARD_BUTTON_1);
-    //     climberActive = true;
-    // }
-    // else
-    // {
-    //     climberActive = false;
-    // }
-
-    // if (climberActive)
-    // {
-    //     climber.RotateClimber(operatorRightStick.GetY(), FORWARD);
-    // }
-    // else
-    // {
-    //     climber.RotateClimber(0, FORWARD);
-    // }
+    // Control climber
 
     climberActive = operatorLeftStick.GetRawButton(CLIMBER_ENABLE_BUTTON);
 
@@ -296,8 +278,8 @@ void Robot::TeleopPeriodic()
             climber.RetractClimber();
         }
     }
-
 #endif
+
     ///////////////////////////////////////////////////////
     // LEDs
     if (m_gameTimer.HasElapsed((units::second_t)120.0))
