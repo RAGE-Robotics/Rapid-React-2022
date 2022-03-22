@@ -81,6 +81,17 @@ void Base::IntakeMotor(bool isOn)
 #endif
 }
 
+void Base::IntakeMotorReverse(bool isOn)
+{
+#ifdef ENABLE_INTAKE_SYSTEM
+    if (isOn) {
+        intakeMotor.Set(ControlMode::PercentOutput, INTAKE_ROLLER_MOTOR_SPEED);
+    } else {
+        intakeMotor.Set(ControlMode::PercentOutput, 0);
+    }
+#endif
+}
+
 void Base::ConveyorMotor(bool isOn, int direction)
 {
 #ifdef ENABLE_INTAKE_SYSTEM

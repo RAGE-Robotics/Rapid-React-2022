@@ -13,6 +13,7 @@ public:
     void ReleaseIntake(void);
     void RetractIntake(void);
     void IntakeMotor(bool isOn);
+    void IntakeMotorReverse(bool isOn);
     void ConveyorMotor(bool isOn, int direction = 0);
 
 private:

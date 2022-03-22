@@ -83,22 +83,21 @@ void Robot::AutonomousPeriodic()
     
     leds.displayRainbow();
     
-    // Home the shooter angle mechanism
-    // if (shooterHoming)
-    // {
-    //     if (!shooter.AngleMotorAtHome())
-    //     {
-    //         shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
-    //     }
-    //     else
-    //     {
-    //         shooterHoming = false;
-    //         shooter.MoveAngleMotor(0);
-    //     }
-    // }
+    //Home the shooter angle mechanism
+    if (shooterHoming)
+    {
+        if (!shooter.AngleMotorAtHome())
+        {
+            shooter.MoveAngleMotor(SHOOTER_ANGLE_HOME_SPEED, BACKWARD);
+        }
+        else
+        {
+            shooterHoming = false;
+            shooter.MoveAngleMotor(0);
+        }
+    }
     
     ActionType currentAction = autoController.getCurrentAction();
-    #if 0
     switch (currentAction)
     {
     case ActionType::SHIFT_HIGH:
@@ -146,7 +145,6 @@ void Robot::AutonomousPeriodic()
     default:
         break;
     }
-    #endif
 }
 
 void Robot::TeleopInit()
