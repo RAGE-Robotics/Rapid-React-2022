@@ -202,6 +202,15 @@ void Robot::TeleopPeriodic()
         base.IntakeMotor(OFF);
     }
 
+    if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_REVERSE_OP))
+    {
+        base.IntakeMotorReverse(ON);
+    }
+    else
+    {
+        base.IntakeMotorReverse(OFF);
+    }
+
     if (operatorLeftStick.GetRawButtonPressed(DEPLOY_INTAKE_BUTTON))
     {
         base.DeployIntake();
