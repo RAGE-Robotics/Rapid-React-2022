@@ -51,7 +51,7 @@ void Robot::AutonomousInit()
     m_gameTimer.Start();
     m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
-    shooterHoming = false;
+    shooterHoming = true;
 
     m_autoSelected = m_chooser.GetSelected();
 
@@ -146,7 +146,7 @@ void Robot::AutonomousPeriodic()
                 base.IntakeMotor(OFF);
                 break;
             case ActionType::CONVEYOR_ON:
-                base.ConveyorMotor(ON);
+                base.ConveyorMotor(ON, FORWARD);
                 break;
             case ActionType::CONVEYOR_OFF:
                 base.ConveyorMotor(OFF);
