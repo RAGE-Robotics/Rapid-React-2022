@@ -143,11 +143,11 @@ const std::vector<AutoAction> k_leaveTarmacPickAndShoot{
 const std::vector<AutoAction> k_forwardBack{
     AutoAction(
         ActionType::DRIVE_FORWARD,
-        3.0f,  // Duration
+        1.0f,  // Duration
         1.0f), // Delay
     AutoAction(
         ActionType::DRIVE_BACKWARD,
-        3.0f, // Duration
+        1.0f, // Duration
         1.0f) // Delay
 };
 
@@ -172,6 +172,8 @@ public:
     void setActions(std::vector<AutoAction> p_actionList);
     ActionType getCurrentAction(); // Returns an enum ActionType, for use in a switch statement
 
+    std::vector<AutoAction> m_actions = k_doNothing;
+    
 private:
     // A timer representing progress through the current timer
     // Resets and increments index after the action is complete
@@ -180,5 +182,5 @@ private:
     unsigned int currActionIndex = 0;
 
     // List of actions currently assigned to the controller, can change
-    std::vector<AutoAction> m_actions;
+
 };

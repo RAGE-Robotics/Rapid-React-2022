@@ -4,7 +4,6 @@
 
 void Robot::RobotInit()
 {
-
     m_chooser.SetDefaultOption("Leave tarmac", "leavetarmac");
     m_chooser.AddOption("Leave tarmac and pick up ball", "leavetarmacpickupball");
     m_chooser.AddOption("Leave tarmac, pick ball, shoot", "leavetarmacpickandshoot");
@@ -52,30 +51,38 @@ void Robot::AutonomousInit()
     m_gameTimer.Start();
     m_limelightLEDModeSelected = m_limelightLEDChooser.GetSelected();
 
-    autoController.start();
+    shooterHoming = false;
 
-    shooterHoming = true;
+    m_autoSelected = m_chooser.GetSelected();
 
     if (m_autoSelected == "leavetarmac")
     {
-        autoController.setActions(k_leaveTarmac);
+        // autoController.setActions(k_leaveTarmac);
+        autoController.m_actions = k_leaveTarmac;
     }
     else if (m_autoSelected == "leavetarmacpickupball")
     {
-        autoController.setActions(k_leaveTarmacPickUpBall);
+        // autoController.setActions(k_leaveTarmacPickUpBall);
+        autoController.m_actions = k_leaveTarmacPickUpBall;
     }
     else if (m_autoSelected == "leavetarmacpickandshoot")
     {
-        autoController.setActions(k_leaveTarmacPickAndShoot);
+        // autoController.setActions(k_leaveTarmacPickAndShoot);
+        autoController.m_actions = k_leaveTarmacPickAndShoot;
     }
     else if (m_autoSelected == "forwardback")
     {
-        autoController.setActions(k_forwardBack);
+        // autoController.setActions(k_forwardBack);
+        autoController.m_actions = k_forwardBack;
     }
     else if (m_autoSelected == "donothing")
     {
-        autoController.setActions(k_doNothing);
+        // autoController.setActions(k_doNothing);
+        autoController.m_actions = k_doNothing;
     }
+
+    autoController.start();
+
 }
 
 void Robot::AutonomousPeriodic()
@@ -164,7 +171,7 @@ void Robot::TeleopPeriodic()
 {
     if ((rand() % 30) == 0)
     {
-        wpi::outs() << std::to_string(shooter.GetShooterAngle()) << "\n";
+        // wpi::outs() << std::to_string(shooter.GetShooterAngle()) << "\n";
     }
 
 #ifdef ENABLE_STICK_CONTROL

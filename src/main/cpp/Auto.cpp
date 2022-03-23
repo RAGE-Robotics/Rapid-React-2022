@@ -19,6 +19,7 @@ ActionType AutoController::getCurrentAction() {
     if (actionProgress < currentAction.duration) {
        return currentAction.type;
     }
+    //wpi::outs() << std::to_string(m_actions.size()) << "\n";
 
     return ActionType::NOTHING; // Will yell at us if we dont put this
 }

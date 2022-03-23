@@ -24,9 +24,10 @@
 #define ENABLE_INTAKE_SYSTEM
 #define ENABLE_SHOOTER_SYSTEM
 #define ENABLE_CLIMBER_SYSTEM
-#define ENABLE_SMARTDASH_PID
 #define ENABLE_COMPRESSOR
 #define ENABLE_STICK_CONTROL
+
+//#define ENABLE_SMARTDASH_PID
 
 //Joysticks and buttons
 ////////////////////////////////////
