@@ -13,6 +13,7 @@ public:
     void displayTeamColor();
     void displayRainbow();
     void displayFallingLights();
+    void displayRedWhiteAndBlue();
     void updateLEDs();
 
     // LED Game Stuff
@@ -21,7 +22,7 @@ public:
     // void nextGameStage();
 
 private:
-    static constexpr int kLength = 200;
+    static constexpr int kLength = 250;
     // // PWM port 9
     // // Must be a PWM header, not MXP or DIO
     frc::AddressableLED m_led{9};

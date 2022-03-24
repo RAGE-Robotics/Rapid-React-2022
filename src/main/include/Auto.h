@@ -13,7 +13,9 @@ enum class ActionType
     DRIVE_BACKWARD,
     DEPLOY_INTAKE,
     RELEASE_INTAKE,
-    AIM_SHOOTER_AUTO,
+    MOVE_SHOOTER_ANGLE,
+    STOP_SHOOTER_ANGLE,
+    AIM_SHOOTER_AUTO, 
     AIM_SHOOTER_TELEOP,
     TURN_LEFT,
     TURN_RIGHT,
@@ -102,9 +104,17 @@ const std::vector<AutoAction> k_leaveTarmacPickAndShoot{
         ActionType::RELEASE_INTAKE,
         0.5f,
         0.0f),
+    // AutoAction(
+    //     ActionType::AIM_SHOOTER_AUTO,
+    //     1.0f,  // Duration
+    //     0.0f), // Delay
     AutoAction(
-        ActionType::AIM_SHOOTER_AUTO,
-        1.0f,  // Duration
+        ActionType::MOVE_SHOOTER_ANGLE,
+        2.3f,  // Duration
+        0.0f), // Delay
+    AutoAction(
+        ActionType::STOP_SHOOTER_ANGLE,
+        0.1f,  // Duration
         0.0f), // Delay
     AutoAction(
         ActionType::INTAKE_ON,
@@ -112,7 +122,7 @@ const std::vector<AutoAction> k_leaveTarmacPickAndShoot{
         0.5f),
     AutoAction(
         ActionType::DRIVE_FORWARD,
-        2.0f,  // Duration
+        1.5f,  // Duration
         1.0f), // Delay
     AutoAction(
         ActionType::INTAKE_OFF,
@@ -133,11 +143,11 @@ const std::vector<AutoAction> k_leaveTarmacPickAndShoot{
     AutoAction(
         ActionType::SHOOT_OFF,
         0.1f,
-        0.0f),
-    AutoAction(
-        ActionType::AIM_SHOOTER_TELEOP,
-        1.0f,  // Duration
-        0.0f)  // Delay
+        0.0f)
+    // AutoAction(
+    //     ActionType::AIM_SHOOTER_TELEOP,
+    //     1.0f,  // Duration
+    //     0.0f)  // Delay
 };
 
 const std::vector<AutoAction> k_forwardBack{
@@ -173,7 +183,7 @@ public:
     ActionType getCurrentAction(); // Returns an enum ActionType, for use in a switch statement
 
     std::vector<AutoAction> m_actions = k_doNothing;
-    
+
 private:
     // A timer representing progress through the current timer
     // Resets and increments index after the action is complete

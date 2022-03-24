@@ -14,6 +14,7 @@ public:
     double GetShooterSpeedTopRPM();
     double GetShooterSpeedBottomRPM();
 
+    void SpinUpShooterMotorsAutonomous(void);
     void SpinUpShooterMotors(void);
     void ShutDownShooterMotors(void);
     void Shoot(void);

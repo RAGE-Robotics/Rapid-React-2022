@@ -87,8 +87,8 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-    leds.displayRainbow();
-    
+    //leds.displayRainbow();
+    leds.displayRedWhiteAndBlue();
     // Home the shooter angle mechanism
     if (shooterHoming)
     {
@@ -127,6 +127,12 @@ void Robot::AutonomousPeriodic()
             case ActionType::RELEASE_INTAKE:
                 base.ReleaseIntake();
                 break;
+            case ActionType::MOVE_SHOOTER_ANGLE:
+                shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, FORWARD);
+                break;
+            case ActionType::STOP_SHOOTER_ANGLE:
+                shooter.MoveAngleMotor(0);
+                break;
             case ActionType::AIM_SHOOTER_AUTO:
                 shooter.AimShooter(shooter.kShooterAngleAutonomous);
                 break;
@@ -134,7 +140,7 @@ void Robot::AutonomousPeriodic()
                 shooter.AimShooter(shooter.kShooterAngleTeleop);
                 break;
             case ActionType::SHOOT_ON:
-                shooter.SpinUpShooterMotors();
+                shooter.SpinUpShooterMotorsAutonomous();
                 break;
             case ActionType::SHOOT_OFF:
                 shooter.ShutDownShooterMotors();
@@ -192,25 +198,22 @@ void Robot::TeleopPeriodic()
 
     ///////////////////////////////////////////////////////
     // Operator/Driver ball intake
+    bool intakeRunning = false;
     if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_OP) ||
         driverRightStick.GetRawButton(INTAKE_ROLLER_ON_BUTTON_DRIVER))
     {
         base.IntakeMotor(ON);
-    }
-    else
-    {
-        base.IntakeMotor(OFF);
+        intakeRunning = true;
     }
 
     if (operatorLeftStick.GetRawButton(INTAKE_ROLLER_REVERSE_OP))
     {
         base.IntakeMotorReverse(ON);
+        intakeRunning = true;
     }
-    else
-    {
-        base.IntakeMotorReverse(OFF);
+    if (!intakeRunning) {
+        base.IntakeMotor(OFF);
     }
-
     if (operatorLeftStick.GetRawButtonPressed(DEPLOY_INTAKE_BUTTON))
     {
         base.DeployIntake();
@@ -270,7 +273,7 @@ void Robot::TeleopPeriodic()
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, FORWARD);
         // shooter.IncreaseShooterAngle();
     }
-    else if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_DECREASE_BUTTON))
+    else if (operatorRightStick.GetRawButton(SHOOTER_ANGLE_DECREASE_BUTTON) && !shooter.AngleMotorAtHome())
     {
         shooter.MoveAngleMotor(SHOOTER_ANGLE_MOTOR_SPEED, BACKWARD);
         // shooter.DecreaseShooterAngle();

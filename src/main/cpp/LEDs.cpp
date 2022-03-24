@@ -2,6 +2,7 @@
 
 LEDs::LEDs()
 {
+    m_LEDTimer.Reset();
     m_LEDTimer.Start();
 
     m_led.SetLength(kLength);
@@ -28,8 +29,8 @@ void LEDs::displayRainbow()
         {
             m_ledBuffer[i].SetHSV(
                 (int)((i / (float)kLength) * 180 + ((int)m_LEDTimer.Get() * 180)) % 180, // Rotating hue, 180 degrees a second
-                255, // Max shade
-                255); // Max value
+                255,                                                                     // Max shade
+                255);                                                                    // Max value
         }
         else
         {
@@ -82,6 +83,45 @@ void LEDs::displayFallingLights()
     }
     updateLEDs();
 }
+
+void LEDs::displayRedWhiteAndBlue()
+{
+
+    for (int i = 0; i < kLength; i++)
+    {
+        double t = (double)m_LEDTimer.Get() * 0.3;
+        double normalizedPosition = (double)i / (double)kLength;
+
+        // Modulo magic, keeps it in range 0 - 1, and makes it wrap indefinitely.
+        double redStart = std::fmod(t, 1.0);
+        double whiteStart = std::fmod(t + 1.0 / 3.0, 1.0); 
+        double blueStart = std::fmod(t + 2.0 / 3.0, 1.0);
+
+        // Honestly this is a mess.
+        // I can try to explain it briefly, but both you AND me would lose brain cells.
+        // There is definitely a simpler way, but this is what I went with.
+
+         // So uhm... This first check is just for determining if the LED is within the range for the color in the normal case.
+        if (normalizedPosition > redStart && normalizedPosition <= whiteStart) {
+            m_ledBuffer[i].SetRGB(255, 0, 0);
+        // This check handles the case where the start of the next color in the cycle has wrapped around.
+        } else if (normalizedPosition > redStart && whiteStart < redStart) {
+            m_ledBuffer[i].SetRGB(255, 0, 0);
+        // Repeat for each color.
+        } else if (normalizedPosition > whiteStart && normalizedPosition <= blueStart) {
+            m_ledBuffer[i].SetRGB(255, 255, 255);
+        } else if (normalizedPosition > whiteStart && blueStart < whiteStart) {
+            m_ledBuffer[i].SetRGB(255, 255, 255);
+        } else if (normalizedPosition > blueStart && normalizedPosition <= redStart) {
+            m_ledBuffer[i].SetRGB(0, 0, 255);
+        } else if (normalizedPosition > blueStart && blueStart < redStart) {
+            m_ledBuffer[i].SetRGB(0, 0, 255);
+        }
+
+    }
+    updateLEDs();
+}
+
 void LEDs::setRange(int startIndex, int width, char iRed, char iGreen, char iBlue)
 {
     if (startIndex < 0 || startIndex > kLength)

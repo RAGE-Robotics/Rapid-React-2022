@@ -201,6 +201,12 @@ double Shooter::GetShooterSpeedBottomRPM()
 #endif
 }
 
+void Shooter::SpinUpShooterMotorsAutonomous(void)
+{
+    SetShooterSpeedTopVelocityRPM(SHOOTER_SPEED_VELOCITY_AUTONOMOUS);
+    SetShooterSpeedBottomVelocityRPM(SHOOTER_SPEED_VELOCITY_AUTONOMOUS);
+}
+
 void Shooter::SpinUpShooterMotors(void)
 {
     SetShooterSpeedTopVelocityRPM(shooterSpeedTopVelocity);
